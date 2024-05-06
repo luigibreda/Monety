@@ -3,7 +3,7 @@
 
 Monety é uma plataforma inovadora que permite aos criadores de conteúdo ganharem dinheiro monetizando seu conteúdo online. Com o Monety, você pode transformar seu conteúdo em uma fonte de renda estável e lucrativa.
 
-![Screenshot do Monety](https://github.com/luigibreda/Monety/frontend/src/assets/image/home-print.png)
+![Screenshot do Monety](https://github.com/luigibreda/Monety/blob/main/monety-frontend/src/assets/images/home-print.png)
 
 ## Recursos Principais
 
