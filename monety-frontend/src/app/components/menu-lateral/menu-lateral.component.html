@@ -1,0 +1,50 @@
+<aside class="sidebar-nav-wrapper">
+  <div class="navbar-logo">
+    <h1 (click)="Home()" style="color: #8a32fc; cursor: pointer;">Monety</h1>
+  </div>
+  <nav class="sidebar-nav">
+    <ul>
+
+      <span class="divider"></span>
+
+      <li class="nav-item" [class.active]="router.isActive('/', true)">
+        <a routerLink="/">
+          <span class="icon">
+            <i class="lni lni-home"></i>
+          </span>
+          <span class="text">Home</span>
+        </a>
+      </li>
+
+      <span class="divider"><hr /></span>
+
+      <li class="nav-item" [class.active]="router.isActive('/dashboard', true)">
+        <a routerLink="/dashboard">
+          <span class="icon">
+            <i class="lni lni-dashboard"></i>
+          </span>
+          <span class="text">Dashboard</span>
+        </a>
+      </li>
+      <span class="divider"><hr /></span>
+
+      <li class="nav-item" [class.active]="router.isActive('/login', true)">
+        <a routerLink="/login">
+          <span class="icon">
+            <i class="lni lni-user"></i>
+          </span>
+          <span class="text">Entrar</span>
+        </a>
+      </li>
+      <li class="nav-item" [class.active]="router.isActive('/signup', true)">
+        <a routerLink="/signup">
+          <span class="icon">
+            <i class="lni lni-users"></i>
+          </span>
+          <span class="text">Registrar-se</span>
+        </a>
+      </li>
+
+    </ul>
+  </nav>
+</aside>
