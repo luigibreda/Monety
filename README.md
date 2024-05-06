@@ -10,7 +10,7 @@ Monety é uma plataforma inovadora que permite aos criadores de conteúdo ganhar
 - **Monetização Simples:** Ganhe dinheiro com seu conteúdo de forma simples e direta.
 - **Análise Detalhada:** Acompanhe seu desempenho e ganhos com análises detalhadas.
 - **Conteúdo Diversificado:** Monetize uma ampla variedade de conteúdos, incluindo artigos, vídeos, podcasts e muito mais.
-- **Pagamentos Rápidos:** Receba seus ganhos de forma rápida e segura.
+- **Pagamentos Rápidos:** Receba seus ganhos de forma rápida e segura no PIX ou em Cripto.
 
 ## Como Funciona
 
