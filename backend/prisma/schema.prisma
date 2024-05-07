@@ -34,7 +34,4 @@ model Videos {
   name      String
   price     Int
   userId    String
-  user      User     @relation(fields: [userId], references: [id])
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
 }
