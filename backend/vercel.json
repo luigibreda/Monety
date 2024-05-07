@@ -7,7 +7,7 @@
         },
         {
           "src": "prisma/schema.prisma",
-          "use": "@prisma/cli",
+          "use": "@prisma",
           "config": { "prerun": { "npm": "run prisma:generate" } }
         }
       ],
