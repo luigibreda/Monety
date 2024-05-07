@@ -7,8 +7,7 @@
         },
         {
           "src": "prisma/schema.prisma",
-          "use": "@prisma",
-          "config": { "prerun": { "npm": "run prisma:generate" } }
+          "config": { "prerun": { "npx": "run prisma:generate" } }
         }
       ],
       "routes": [
