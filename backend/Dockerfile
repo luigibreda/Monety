@@ -1,5 +1,5 @@
 ﻿# Use uma imagem base do OpenJDK para o Java
-FROM openjdk:11-jre-slim
+FROM openjdk:17-jdk-slim
 
 # Define o diretório de trabalho dentro do contêiner
 WORKDIR /app
@@ -11,4 +11,4 @@ COPY ./target/login-auth-api-0.0.1-SNAPSHOT.jar /app/login-auth-api-0.0.1-SNAPSH
 EXPOSE 8080
 
 # Comando a ser executado quando o contêiner for iniciado
-CMD ["java", "-jar", "LoginAuthApiApplication.jar"]
+CMD ["java", "-jar", "login-auth-api-0.0.1-SNAPSHOT.jar"]
