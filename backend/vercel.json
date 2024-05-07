@@ -4,11 +4,6 @@
       {
         "src": "index.js",
         "use": "@vercel/node"
-      },
-      {
-        "src": "prisma/schema.prisma", 
-        "use": "@prisma/cli",
-        "config": { "prerun": { "npm": "run prisma:generate" } }
       }
     ],
     "routes": [
