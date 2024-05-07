@@ -5,6 +5,7 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
+    "prisma:generate": "prisma generate",
     "dev": "nodemon index.js"
   },
   "keywords": [],
