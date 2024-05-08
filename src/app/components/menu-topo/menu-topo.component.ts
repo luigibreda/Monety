@@ -2,12 +2,12 @@ import { Component } from '@angular/core';
 import { LoginService } from '../../services/login.service';
 import { CommonModule } from '@angular/common';
 import { AuthGuard } from '../../services/auth-guard.service';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-menu-topo',
   standalone: true,
-  imports: [CommonModule],
+  imports: [RouterLink, CommonModule],
   templateUrl: './menu-topo.component.html',
   styleUrl: './menu-topo.component.scss'
 })
