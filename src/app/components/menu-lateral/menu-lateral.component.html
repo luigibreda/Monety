@@ -36,7 +36,7 @@
         </a>
       </li>
 
-      <li *ngIf="authGuard.isAuthenticated()" class="nav-item" [class.active]="router.isActive('/links', true)">
+      <!-- <li *ngIf="authGuard.isAuthenticated()" class="nav-item" [class.active]="router.isActive('/links', true)">
         <a routerLink="/links">
           <span class="icon">
             <i class="bi bi-link"></i>
@@ -52,7 +52,7 @@
           </span>
           <span class="text">Afiliados <span class="pro-badge">Futuro</span></span>
         </a>
-      </li>
+      </li> -->
 
       <li *ngIf="authGuard.isAuthenticated()" class="nav-item" [class.active]="router.isActive('/perfil', true)">
         <a routerLink="/perfil">
@@ -78,7 +78,7 @@
               </span>
             </a>
           </li>
-          <li>
+          <!-- <li>
             <a routerLink="/aprovacao-arquivos">
               <span class="text">
                 Aprovação Arquivos 
@@ -91,7 +91,7 @@
                 Aprovação links 
               </span>
             </a>
-          </li>
+          </li> -->
           <li>
             <a routerLink="/configuracoes">
               <span class="text">
@@ -108,7 +108,7 @@
 
 
 
-      <span class="divider"><hr /></span>
+      <!-- <span class="divider"><hr /></span>
 
       <li class="nav-item" [class.active]="router.isActive('/login', true)">
         <a routerLink="/login">
@@ -125,7 +125,7 @@
           </span>
           <span class="text">Registrar-se</span>
         </a>
-      </li>
+      </li> -->
 
     </ul>
   </nav>

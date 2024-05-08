@@ -7,6 +7,7 @@ import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { HomeComponent } from './pages/home/home.component';
 import { ArquivosComponent } from './pages/arquivos/arquivos.component';
 import { UsuariosComponent } from './pages/usuarios/usuarios.component';
+import { ConfiguracoesComponent } from './pages/configuracoes/configuracoes.component';
 
 export const routes: Routes = [
     {
@@ -34,6 +35,11 @@ export const routes: Routes = [
     {
         path: "usuarios",
         component: UsuariosComponent,
+        canActivate: [AuthGuard]
+    },
+    {
+        path: "configuracoes",
+        component: ConfiguracoesComponent,
         canActivate: [AuthGuard]
     },
     {
