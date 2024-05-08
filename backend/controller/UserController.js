@@ -118,7 +118,7 @@ export const login = async (req, res) => {
       maxAge: 24 * 60 * 60 * 1000
     })
 
-    res.status(200).json({ token, userName })
+    res.status(200).json({ token, userName, userId })
   } catch (error) {
     console.log(error)
   }
