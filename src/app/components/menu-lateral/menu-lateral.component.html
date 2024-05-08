@@ -7,7 +7,7 @@
 
       <span class="divider"></span>
 
-      <li class="nav-item" [class.active]="router.isActive('/', true)">
+      <li *ngIf="!authGuard.isAuthenticated()" class="nav-item" [class.active]="router.isActive('/', true)">
         <a routerLink="/">
           <span class="icon">
             <i class="lni lni-home"></i>
@@ -16,9 +16,7 @@
         </a>
       </li>
 
-      <span class="divider"><hr /></span>
-
-      <li class="nav-item" [class.active]="router.isActive('/dashboard', true)">
+      <li *ngIf="authGuard.isAuthenticated()" class="nav-item" [class.active]="router.isActive('/dashboard', true)">
         <a routerLink="/dashboard">
           <span class="icon">
             <i class="lni lni-dashboard"></i>
@@ -26,7 +24,91 @@
           <span class="text">Dashboard</span>
         </a>
       </li>
+
       <span class="divider"><hr /></span>
+
+      <li *ngIf="authGuard.isAuthenticated()" class="nav-item" [class.active]="router.isActive('/arquivos', true)">
+        <a routerLink="/arquivos">
+          <span class="icon">
+            <i class="bi bi-folder"></i>
+          </span>
+          <span class="text">Arquivos</span>
+        </a>
+      </li>
+
+      <!-- <li *ngIf="authGuard.isAuthenticated()" class="nav-item" [class.active]="router.isActive('/links', true)">
+        <a routerLink="/links">
+          <span class="icon">
+            <i class="bi bi-link"></i>
+          </span>
+          <span class="text">Links <span class="pro-badge">Futuro</span></span>
+        </a>
+      </li>
+
+      <li *ngIf="authGuard.isAuthenticated()" class="nav-item" [class.active]="router.isActive('/afiliados', true)">
+        <a routerLink="/afiliados">
+          <span class="icon">
+            <i class="bi bi-people"></i>
+          </span>
+          <span class="text">Afiliados <span class="pro-badge">Futuro</span></span>
+        </a>
+      </li> -->
+
+      <li *ngIf="authGuard.isAuthenticated()" class="nav-item" [class.active]="router.isActive('/perfil', true)">
+        <a routerLink="/perfil">
+          <span class="icon">
+            <i class="bi bi-person-gear"></i>
+          </span>
+          <span class="text">Meu perfil</span>
+        </a>
+      </li>
+
+      <li class="nav-item nav-item-has-children">
+        <a href="#0" class="collapsed" data-bs-toggle="collapse" data-bs-target="#ddmenu_4" aria-controls="ddmenu_4" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="icon">
+            <i class="bi bi-gear"></i>
+          </span>
+          <span class="text">Administração </span>
+        </a>
+        <ul id="ddmenu_4" class="dropdown-nav collapse">
+          <li>
+            <a routerLink="/usuarios">
+              <span class="text">
+                Usuários
+              </span>
+            </a>
+          </li>
+          <!-- <li>
+            <a routerLink="/aprovacao-arquivos">
+              <span class="text">
+                Aprovação Arquivos 
+              </span>
+            </a>
+          </li>
+          <li>
+            <a routerLink="/aprovacao-links">
+              <span class="text">
+                Aprovação links 
+              </span>
+            </a>
+          </li> -->
+          <li>
+            <a routerLink="/configuracoes">
+              <span class="text">
+                Configurações
+              </span>
+            </a>
+          </li>
+        </ul>
+      </li>
+
+
+
+
+
+
+
+      <!-- <span class="divider"><hr /></span>
 
       <li class="nav-item" [class.active]="router.isActive('/login', true)">
         <a routerLink="/login">
@@ -43,7 +125,7 @@
           </span>
           <span class="text">Registrar-se</span>
         </a>
-      </li>
+      </li> -->
 
     </ul>
   </nav>

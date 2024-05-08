@@ -31,6 +31,7 @@
             ],
             "styles": [
               "src/assets/css/bootstrap.min.css",
+              "./node_modules/bootstrap-icons/font/bootstrap-icons.min.css",
               "src/assets/css/lineicons.css",
               "src/assets/css/materialdesignicons.min.css",
               "src/assets/css/fullcalendar.css",
@@ -39,6 +40,7 @@
             ],
             "scripts": [
               "src/assets/js/bootstrap.bundle.min.js",
+              "./node_modules/jquery/dist/jquery.min.js",
               "src/assets/js/Chart.min.js",
               "src/assets/js/dynamic-pie-chart.js",
               "src/assets/js/moment.min.js",

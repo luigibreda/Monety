@@ -22,3 +22,26 @@ html, body {
     background-color: rgba(0, 0, 0, 0.2); /* Cor do indicador (thumb) */
     border-radius: 5px; /* Arredondamento das bordas */
 }
+
+.feature-icon.bg-primary.bg-gradient {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 4rem;
+    height: 4rem;
+    margin-bottom: 1rem;
+    font-size: 2rem;
+    color: #fff;
+    border-radius: 0.75rem;
+    background-color: #8a32fc !important;
+    padding: 0 15px !important;
+    margin-right: 5%;
+}
+
+p.feature-icon {
+    font-size: 0.9em;
+}
+
+body > main > app-home > div.bg-dark.text-secondary.px-4.py-5.text-center > div > div > p {
+    color: #777777 !important;
+}
