@@ -1,10 +1,13 @@
 import { Routes } from '@angular/router';
 import { LoginComponent } from './pages/login/login.component';
 import { SignUpComponent } from './pages/signup/signup.component';
-import { UserComponent } from './pages/user/user.component';
+import { PerfilComponent } from './pages/perfil/perfil.component';
 import { AuthGuard } from './services/auth-guard.service';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { HomeComponent } from './pages/home/home.component';
+import { ArquivosComponent } from './pages/arquivos/arquivos.component';
+import { UsuariosComponent } from './pages/usuarios/usuarios.component';
+import { ConfiguracoesComponent } from './pages/configuracoes/configuracoes.component';
 
 export const routes: Routes = [
     {
@@ -25,8 +28,23 @@ export const routes: Routes = [
         canActivate: [AuthGuard]
     },
     {
-        path: "user",
-        component: UserComponent,
+        path: "arquivos",
+        component: ArquivosComponent,
+        canActivate: [AuthGuard]
+    },
+    {
+        path: "usuarios",
+        component: UsuariosComponent,
+        canActivate: [AuthGuard]
+    },
+    {
+        path: "configuracoes",
+        component: ConfiguracoesComponent,
+        canActivate: [AuthGuard]
+    },
+    {
+        path: "perfil",
+        component: PerfilComponent,
         canActivate: [AuthGuard]
     }
 ];
