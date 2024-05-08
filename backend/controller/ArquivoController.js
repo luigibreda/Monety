@@ -28,7 +28,7 @@ export const getAllArquivos = async (req, res) => {
     const limit = Number(req.query.limit) || 10
     const search = req.query.search_query || ""
     const offset = page * limit
-    const totalRows = await prisma.arquivo.count({
+    const totalRows = await prisma.arquivos.count({
       where: {
         name: {
           contains: search
@@ -36,7 +36,7 @@ export const getAllArquivos = async (req, res) => {
       }
     })
     const totalPage = Math.ceil(totalRows / limit)
-    const result = await prisma.arquivo.findMany({
+    const result = await prisma.arquivos.findMany({
       skip: offset,
       take: limit,
       where: {
@@ -66,7 +66,7 @@ export const getUserArquivos = async (req, res) => {
     const limit = Number(req.query.limit) || 5
     const search = req.query.search_query || ""
     const offset = page * limit
-    const totalRows = await prisma.arquivo.count({
+    const totalRows = await prisma.arquivos.count({
       where: {
         userId,
         name: {
@@ -75,7 +75,7 @@ export const getUserArquivos = async (req, res) => {
       }
     })
     const totalPage = Math.ceil(totalRows / limit)
-    const result = await prisma.arquivo.findMany({
+    const result = await prisma.arquivos.findMany({
       skip: offset,
       take: limit,
       where: {
@@ -123,7 +123,7 @@ export const createArquivo = async (req, res) => {
     if (!user) return res.sendStatus(404)
     if (user.refresh_token !== refreshToken) return res.sendStatus(403)
 
-    const arquivo = await prisma.arquivo.create({
+    const arquivo = await prisma.arquivos.create({
       data: {
         name,
         price: Number(price),
@@ -162,7 +162,7 @@ export const editArquivo = async (req, res) => {
     if (!user) return res.sendStatus(404)
     if (user.refresh_token !== refreshToken) return res.sendStatus(403)
 
-    const isArquivoExist = await prisma.arquivo.findUnique({
+    const isArquivoExist = await prisma.arquivos.findUnique({
       where: {
         id: Number(arquivoId),
         userId
@@ -171,7 +171,7 @@ export const editArquivo = async (req, res) => {
 
     if (!isArquivoExist) return res.sendStatus(404)
 
-    const arquivo = await prisma.arquivo.update({
+    const arquivo = await prisma.arquivos.update({
       where: {
         id: Number(arquivoId)
       },
@@ -210,7 +210,7 @@ export const deleteArquivo = async (req, res) => {
     if (!user) return res.sendStatus(404)
     if (user.refresh_token !== refreshToken) return res.sendStatus(403)
 
-    const isArquivoExist = await prisma.arquivo.findUnique({
+    const isArquivoExist = await prisma.arquivos.findUnique({
       where: {
         id: Number(arquivoId),
         userId
@@ -219,7 +219,7 @@ export const deleteArquivo = async (req, res) => {
 
     if (!isArquivoExist) return res.sendStatus(404)
 
-    const deletedArquivo = await prisma.arquivo.delete({
+    const deletedArquivo = await prisma.arquivos.delete({
       where: {
         id: Number(arquivoId),
         userId
