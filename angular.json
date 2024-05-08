@@ -39,6 +39,7 @@
             ],
             "scripts": [
               "src/assets/js/bootstrap.bundle.min.js",
+              "./node_modules/jquery/dist/jquery.min.js",
               "src/assets/js/Chart.min.js",
               "src/assets/js/dynamic-pie-chart.js",
               "src/assets/js/moment.min.js",
