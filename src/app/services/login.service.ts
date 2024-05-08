@@ -8,7 +8,7 @@ import { tap } from 'rxjs';
   providedIn: 'root'
 })
 export class LoginService {
-  apiUrl: string = "http://localhost:8080/auth"
+  apiUrl: string = "https://monety-backend2.vercel.app/auth"
 
   constructor(private httpClient: HttpClient, private router: Router) { }
 
