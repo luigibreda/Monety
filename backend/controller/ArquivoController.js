@@ -28,7 +28,7 @@ export const getAllArquivos = async (req, res) => {
     const limit = Number(req.query.limit) || 10
     const search = req.query.search_query || ""
     const offset = page * limit
-    const totalRows = await prisma.arquivo.count({
+    const totalRows = await prisma.arquivos.count({
       where: {
         name: {
           contains: search
@@ -36,7 +36,7 @@ export const getAllArquivos = async (req, res) => {
       }
     })
     const totalPage = Math.ceil(totalRows / limit)
-    const result = await prisma.arquivo.findMany({
+    const result = await prisma.arquivos.findMany({
       skip: offset,
       take: limit,
       where: {
