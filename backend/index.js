@@ -4,7 +4,7 @@ import cors from "cors"
 import cookieParser from "cookie-parser"
 
 import UserRoute from "./routes/UserRoute.js"
-import ProductRoute from "./routes/ProductRoute.js"
+import ArquivosRoute from "./routes/ArquivosRoute.js"
 dotenv.config()
 
 const app = express()
@@ -19,6 +19,6 @@ app.use(cookieParser())
 
 // Routes
 app.use(UserRoute)
-app.use(ProductRoute)
+app.use(ArquivosRoute)
 
 app.listen(process.env.PORT, () => console.log("Server is running... port: "+process.env.PORT))

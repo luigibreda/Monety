@@ -3,32 +3,32 @@ import jwt from "jsonwebtoken"
 
 const prisma = new PrismaClient()
 
-// GET single product
-export const getProduct = async (req, res) => {
+// GET Único arquivo
+export const getArquivo = async (req, res) => {
   try {
-    const { userId, productId } = req.params
+    const { userId, arquivoId } = req.params
 
-    const product = await prisma.product.findUnique({
+    const arquivo = await prisma.arquivo.findUnique({
       where: {
-        id: Number(productId),
+        id: Number(arquivoId),
         userId
       }
     })
 
-    res.status(200).json(product)
+    res.status(200).json(arquivo)
   } catch (error) {
     console.log(error)
   }
 }
 
-// GET all products
-export const getAllProducts = async (req, res) => {
+// GET Todos os arquivos
+export const getAllArquivos = async (req, res) => {
   try {
     const page = Number(req.query.page) || 0
     const limit = Number(req.query.limit) || 10
     const search = req.query.search_query || ""
     const offset = page * limit
-    const totalRows = await prisma.product.count({
+    const totalRows = await prisma.arquivo.count({
       where: {
         name: {
           contains: search
@@ -36,7 +36,7 @@ export const getAllProducts = async (req, res) => {
       }
     })
     const totalPage = Math.ceil(totalRows / limit)
-    const result = await prisma.product.findMany({
+    const result = await prisma.arquivo.findMany({
       skip: offset,
       take: limit,
       where: {
@@ -58,15 +58,15 @@ export const getAllProducts = async (req, res) => {
   }
 }
 
-// GET user products
-export const getUserProducts = async (req, res) => {
+// GET arquivos por usuário
+export const getUserArquivos = async (req, res) => {
   try {
     const userId = req.params.userId
     const page = Number(req.query.page) || 0
     const limit = Number(req.query.limit) || 5
     const search = req.query.search_query || ""
     const offset = page * limit
-    const totalRows = await prisma.product.count({
+    const totalRows = await prisma.arquivo.count({
       where: {
         userId,
         name: {
@@ -75,7 +75,7 @@ export const getUserProducts = async (req, res) => {
       }
     })
     const totalPage = Math.ceil(totalRows / limit)
-    const result = await prisma.product.findMany({
+    const result = await prisma.arquivo.findMany({
       skip: offset,
       take: limit,
       where: {
@@ -98,15 +98,15 @@ export const getUserProducts = async (req, res) => {
   }
 }
 
-// CREATE user product
-export const createProduct = async (req, res) => {
+// CREATE arquivo por usuario
+export const createArquivo = async (req, res) => {
   try {
     const { name, price } = req.body
     const refreshToken = req.cookies.refreshToken
 
     if (!refreshToken) return res.sendStatus(401)
-    if (!name) return res.status(400).json({ message: "Name is required"})
-    if (!price) return res.status(400).json({ message: "Price is required"})
+    if (!name) return res.status(400).json({ message: "Nome Obrigatório"})
+    if (!price) return res.status(400).json({ message: "Preço Obrigatório"})
 
     jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, decoded) => {
       if (err) return res.sendStatus(403)
@@ -123,7 +123,7 @@ export const createProduct = async (req, res) => {
     if (!user) return res.sendStatus(404)
     if (user.refresh_token !== refreshToken) return res.sendStatus(403)
 
-    const product = await prisma.product.create({
+    const arquivo = await prisma.arquivo.create({
       data: {
         name,
         price: Number(price),
@@ -131,27 +131,27 @@ export const createProduct = async (req, res) => {
       }
     })
 
-    res.status(201).json(product)
+    res.status(201).json(arquivo)
   } catch (error) {
     console.log(error)
   }
 }
 
-// EDIT user product
-export const editProduct = async (req, res) => {
+// EDIT arquivo por usuário
+export const editArquivo = async (req, res) => {
   try {
     const { name, price } = req.body
     const refreshToken = req.cookies.refreshToken
 
     if (!refreshToken) return res.sendStatus(401)
-    if (!name) return res.status(400).json({ message: "Name is required"})
-    if (!price) return res.status(400).json({ message: "Price is required"})
+    if (!name) return res.status(400).json({ message: "Nome Obrigatório"})
+    if (!price) return res.status(400).json({ message: "Preço Obrigatório"})
 
     jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, decoded) => {
       if (err) return res.sendStatus(403)
     })
     
-    const { userId, productId } = req.params
+    const { userId, arquivoId } = req.params
 
     const user = await prisma.user.findUnique({
       where: {
@@ -162,18 +162,18 @@ export const editProduct = async (req, res) => {
     if (!user) return res.sendStatus(404)
     if (user.refresh_token !== refreshToken) return res.sendStatus(403)
 
-    const isProductExist = await prisma.product.findUnique({
+    const isArquivoExist = await prisma.arquivo.findUnique({
       where: {
-        id: Number(productId),
+        id: Number(arquivoId),
         userId
       }
     })
 
-    if (!isProductExist) return res.sendStatus(404)
+    if (!isArquivoExist) return res.sendStatus(404)
 
-    const product = await prisma.product.update({
+    const arquivo = await prisma.arquivo.update({
       where: {
-        id: Number(productId)
+        id: Number(arquivoId)
       },
       data: {
         name,
@@ -181,15 +181,15 @@ export const editProduct = async (req, res) => {
       }
     })
 
-    res.status(201).json(product)
+    res.status(201).json(arquivo)
   } catch (error) {
     console.log(error)
     res.sendStatus(400)
   }
 }
 
-// DELETE user product
-export const deleteProduct = async (req, res) => {
+// DELETE arquivo por usuário
+export const deleteArquivo = async (req, res) => {
   try {
     const refreshToken = req.cookies.refreshToken
 
@@ -199,7 +199,7 @@ export const deleteProduct = async (req, res) => {
       if (err) return res.sendStatus(403)
     })
     
-    const { userId, productId } = req.params
+    const { userId, arquivoId } = req.params
 
     const user = await prisma.user.findUnique({
       where: {
@@ -210,25 +210,25 @@ export const deleteProduct = async (req, res) => {
     if (!user) return res.sendStatus(404)
     if (user.refresh_token !== refreshToken) return res.sendStatus(403)
 
-    const isProductExist = await prisma.product.findUnique({
+    const isArquivoExist = await prisma.arquivo.findUnique({
       where: {
-        id: Number(productId),
+        id: Number(arquivoId),
         userId
       }
     })
 
-    if (!isProductExist) return res.sendStatus(404)
+    if (!isArquivoExist) return res.sendStatus(404)
 
-    const deletedProduct = await prisma.product.delete({
+    const deletedArquivo = await prisma.arquivo.delete({
       where: {
-        id: Number(productId),
+        id: Number(arquivoId),
         userId
       }
     })
 
     res.status(200).json({
-      message: "Product deleted",
-      data: deletedProduct
+      message: "Arquivo deletado",
+      data: deletedArquivo
     })
   } catch (error) {
     console.log(error)
