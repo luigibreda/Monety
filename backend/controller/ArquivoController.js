@@ -30,7 +30,7 @@ export const getAllArquivos = async (req, res) => {
     const offset = page * limit
     const totalRows = await prisma.arquivos.count({
       where: {
-        name: {
+        nome: {
           contains: search
         }
       }
@@ -40,7 +40,7 @@ export const getAllArquivos = async (req, res) => {
       skip: offset,
       take: limit,
       where: {
-        name: {
+        nome: {
           contains: search
         }
       }
@@ -61,7 +61,7 @@ export const getAllArquivos = async (req, res) => {
 // GET arquivos por usuário
 export const getUserArquivos = async (req, res) => {
   try {
-    const userId = req.params.userId
+    const userId = req.params.arquivoId
     const page = Number(req.query.page) || 0
     const limit = Number(req.query.limit) || 5
     const search = req.query.search_query || ""
@@ -69,7 +69,7 @@ export const getUserArquivos = async (req, res) => {
     const totalRows = await prisma.arquivos.count({
       where: {
         userId,
-        name: {
+        nome: {
           contains: search
         }
       }
@@ -80,7 +80,7 @@ export const getUserArquivos = async (req, res) => {
       take: limit,
       where: {
         userId,
-        name: {
+        nome: {
           contains: search
         }
       }
@@ -98,44 +98,44 @@ export const getUserArquivos = async (req, res) => {
   }
 }
 
-// CREATE arquivo por usuario
-export const createArquivo = async (req, res) => {
-  try {
-    const { name, price } = req.body
-    const refreshToken = req.cookies.refreshToken
+// // CREATE arquivo por usuario
+// export const createArquivo = async (req, res) => {
+//   try {
+//     const { name, price } = req.body
+//     const refreshToken = req.cookies.refreshToken
 
-    if (!refreshToken) return res.sendStatus(401)
-    if (!name) return res.status(400).json({ message: "Nome Obrigatório"})
-    if (!price) return res.status(400).json({ message: "Preço Obrigatório"})
+//     if (!refreshToken) return res.sendStatus(401)
+//     if (!name) return res.status(400).json({ message: "Nome Obrigatório"})
+//     if (!price) return res.status(400).json({ message: "Preço Obrigatório"})
 
-    jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, decoded) => {
-      if (err) return res.sendStatus(403)
-    })
+//     jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, decoded) => {
+//       if (err) return res.sendStatus(403)
+//     })
     
-    const { userId } = req.params
+//     const { userId } = req.params
 
-    const user = await prisma.user.findUnique({
-      where: {
-        id: userId
-      }
-    })
+//     const user = await prisma.user.findUnique({
+//       where: {
+//         id: userId
+//       }
+//     })
 
-    if (!user) return res.sendStatus(404)
-    if (user.refresh_token !== refreshToken) return res.sendStatus(403)
+//     if (!user) return res.sendStatus(404)
+//     if (user.refresh_token !== refreshToken) return res.sendStatus(403)
 
-    const arquivo = await prisma.arquivos.create({
-      data: {
-        name,
-        price: Number(price),
-        userId
-      }
-    })
+//     const arquivo = await prisma.arquivos.create({
+//       data: {
+//         name,
+//         price: Number(price),
+//         userId
+//       }
+//     })
 
-    res.status(201).json(arquivo)
-  } catch (error) {
-    console.log(error)
-  }
-}
+//     res.status(201).json(arquivo)
+//   } catch (error) {
+//     console.log(error)
+//   }
+// }
 
 // EDIT arquivo por usuário
 export const editArquivo = async (req, res) => {
@@ -203,7 +203,7 @@ export const deleteArquivo = async (req, res) => {
 
     const user = await prisma.user.findUnique({
       where: {
-        id: userId  
+        id: req.usuario.userId  
       }
     })
 
@@ -212,8 +212,8 @@ export const deleteArquivo = async (req, res) => {
 
     const isArquivoExist = await prisma.arquivos.findUnique({
       where: {
-        id: Number(arquivoId),
-        userId
+        id: arquivoId,
+        userId: req.usuario.userId 
       }
     })
 
@@ -221,8 +221,8 @@ export const deleteArquivo = async (req, res) => {
 
     const deletedArquivo = await prisma.arquivos.delete({
       where: {
-        id: Number(arquivoId),
-        userId
+        id: arquivoId,
+        userId: req.usuario.userId 
       }
     })
 
@@ -235,3 +235,40 @@ export const deleteArquivo = async (req, res) => {
     res.sendStatus(400)
   }
 }
+
+
+// CREATE arquivo por usuario com upload de arquivo
+export const enviaArquivo = async (req, res) => {
+  try {
+
+    const userId = req.usuario.userId;
+
+    // Verifica se os arquivos foram enviados
+    if (!req.files || req.files.length === 0) {
+      return res.status(400).json({ message: "Arquivo é obrigatório" });
+    }
+
+    // Extrai o primeiro arquivo da lista de arquivos
+    const file = req.files[0];
+
+    // Extrai as informações do arquivo
+    const { originalname, filename, path } = file;
+
+    // Salva o arquivo no banco de dados
+    const arquivo = await prisma.arquivos.create({
+      data: {
+        nome: originalname,
+        path: path,
+        filename: filename,
+        userId: userId
+      }
+    });
+
+    res.status(201).json(arquivo);
+  } catch (error) {
+    console.log(error);
+    res.sendStatus(400);
+  }
+};
+
+// export { upload };
