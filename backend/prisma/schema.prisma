@@ -24,6 +24,7 @@ model Arquivos {
   id        String    @id @default(uuid()) @map("_id")
   nome      String
   path      String
+  filename  String
   userId    String
   user      User     @relation(fields: [userId], references: [id])
   createdAt DateTime @default(now())
