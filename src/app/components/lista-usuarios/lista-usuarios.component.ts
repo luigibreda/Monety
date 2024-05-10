@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Usuario, UsuariosService } from '../../services/usuario.service';
+import { UsuariosService } from '../../services/usuario.service';
 import { CommonModule } from '@angular/common';
+import { Usuario } from '../../types/usuario.type';
 
 @Component({
   selector: 'app-lista-usuarios',
@@ -18,7 +19,14 @@ export class ListaUsuariosComponent implements OnInit {
   ngOnInit(): void {
     this.usuariosService.getUsuarios().subscribe(usuarios => {
       this.usuarios = usuarios;
-    });
+  });
   }
+
+  confirmarExclusao(id: string): void {
+    if (confirm("Tem certeza que deseja excluir este usuário?")) {
+      // Lógica para excluir o usuário com o ID fornecido
+      console.log("Usuário com ID", id, "excluído.");
+    }
+}
 
 }

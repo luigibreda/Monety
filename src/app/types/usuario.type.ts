@@ -1,4 +1,5 @@
-export type LoginResponse = {
+export type Usuario = {
+    id: string;
     token: string;
     name: string;
     email: string;
