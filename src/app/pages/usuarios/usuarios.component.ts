@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
+import { ListaUsuariosComponent } from '../../components/lista-usuarios/lista-usuarios.component';
 
 @Component({
   selector: 'app-usuarios',
   standalone: true,
-  imports: [],
+  imports: [ListaUsuariosComponent],
   templateUrl: './usuarios.component.html',
   styleUrl: './usuarios.component.scss'
 })

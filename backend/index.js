@@ -3,7 +3,7 @@ import dotenv from "dotenv"
 import cors from "cors"
 import cookieParser from "cookie-parser"
 
-import UserRoute from "./routes/UserRoute.js"
+import UsuariosRoute from "./routes/UsuariosRoute.js"
 import ArquivosRoute from "./routes/ArquivosRoute.js"
 dotenv.config()
 
@@ -18,7 +18,7 @@ app.use(express.json())
 app.use(cookieParser())
 
 // Routes
-app.use(UserRoute)
+app.use(UsuariosRoute)
 app.use(ArquivosRoute)
 
 app.listen(process.env.PORT, () => console.log("Server is running... port: "+process.env.PORT))

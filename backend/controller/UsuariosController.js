@@ -4,7 +4,7 @@ import jwt from "jsonwebtoken"
 
 const prisma = new PrismaClient()
 
-export const getAllUsers = async (req, res) => {
+export const obterTodosUsuarios = async (req, res) => {
   try {
     const users = await prisma.user.findMany({
       select: {
@@ -21,43 +21,74 @@ export const getAllUsers = async (req, res) => {
   }
 }
 
-export const getUserById = async (req, res) => {
+export const usuarioLogado = async (req, res) => {
   try {
-    const { userId } = req.params
+    const token = req.headers.authorization.split(' ')[1]; // Assume Bearer token
+    if (!token) return res.sendStatus(401);
 
+    const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
     const user = await prisma.user.findUnique({
       where: {
-        id: userId
+        id: decoded.userId
       },
       select: {
         id: true,
         name: true,
         email: true
       }
-    })
+    });
 
-    res.status(200).json(user)
+    if (!user) return res.sendStatus(404);
+
+    res.json(user);
   } catch (error) {
-    console.log(error)
+    console.log(error);
+    res.sendStatus(500);
   }
 }
 
-export const register = async (req, res) => {
+export const obterUsuarioPorId = async (req, res) => {
+  try {
+    const { usuarioId } = req.params;
+    if (!usuarioId) {
+      return res.status(400).json({ mensagem: "ID do usuário não fornecido" });
+    }
+
+    const usuario = await prisma.user.findUnique({
+      where: { id: usuarioId }, // Certifique-se de que o ID é um número inteiro, se necessário
+      select: {
+        id: true,
+        name: true,
+        email: true
+      }
+    });
+
+    if (!usuario) {
+      return res.status(404).json({ mensagem: "Usuário não encontrado" });
+    }
+    res.json(usuario);
+  } catch (error) {
+    console.error("Erro ao buscar usuário por ID:", error);
+    res.status(500).json({ mensagem: "Erro interno do servidor" });
+  }
+  };
+
+export const registrar = async (req, res) => {
   try {
     const { name, email, password, confirmPassword } = req.body
 
-    if (!name) return res.status(400).json({ message: "Name is required"})
-    if (!email) return res.status(400).json({ message: "Email is required"})
-    if (!password) return res.status(400).json({ message: "Password is required"})
-    if (!confirmPassword) return res.status(400).json({ message: "Confirm Password is required" })
-    if (password !== confirmPassword) return res.status(400).json({ message: "Password doesn't match" })
+    if (!name) return res.status(400).json({ message: "Nome é obrigatório."})
+    if (!email) return res.status(400).json({ message: "Email é obrigatório."})
+    if (!password) return res.status(400).json({ message: "Senha é obrigatório."})
+    if (!confirmPassword) return res.status(400).json({ message: "Confirmação de senha é obrigatório." })
+    if (password !== confirmPassword) return res.status(400).json({ message: "Senhas estão diferentes." })
 
     const isUserExist = await prisma.user.findFirst({
       where: {
         email
       }
     })
-    if (isUserExist) return res.status(400).json({ message: "Email is already exist" })
+    if (isUserExist) return res.status(400).json({ message: "Email já está cadastrado." })
 
     const salt = await bcrypt.genSalt()
     const hashedPassword = await bcrypt.hash(password, salt)
@@ -70,35 +101,35 @@ export const register = async (req, res) => {
       }
     })
 
-    res.status(201).json({ message: "Register Successfull"})
+    res.status(201).json({ message: "Registro efetuado com sucesso."})
   } catch (error) {
     console.log(error)
   }
 }
 
-export const login = async (req, res) => {
+export const entrar = async (req, res) => {
   try {
     const { email, password } = req.body
 
-    if (!email) return res.status(400).json({ message: "Email is required"})
-    if (!password) return res.status(400).json({ message: "Password is required" })
+    if (!email) return res.status(400).json({ message: "Email é obrigatório."})
+    if (!password) return res.status(400).json({ message: "Senha é obrigatório." })
     
     const user = await prisma.user.findFirst({
       where: {
         email
       }
     })
-    if (!user) return res.status(400).json({ message: "Email not found" })
+    if (!user) return res.status(400).json({ message: "Email não encontrado." })
 
     const isMatched = await bcrypt.compare(password, user.password)
-    if (!isMatched) return res.status(400).json({ message: "Password is wrong" })
+    if (!isMatched) return res.status(400).json({ message: "Password está incorreto." })
 
     const userId = user.id
     const userEmail = user.email
     const userName = user.name
 
     const token = jwt.sign({ userId, userEmail, userName }, process.env.ACCESS_TOKEN_SECRET, {
-      expiresIn: '15s'
+      expiresIn: '2h'
     })
     const refreshToken = jwt.sign({ userId, userEmail, userName }, process.env.REFRESH_TOKEN_SECRET, {
       expiresIn: '1d'
@@ -118,20 +149,20 @@ export const login = async (req, res) => {
       maxAge: 24 * 60 * 60 * 1000
     })
 
-    res.status(200).json({ token, userName })
+    res.status(200).json({ token, userName, userId })
   } catch (error) {
     console.log(error)
   }
 }
 
-export const updateUser = async (req, res) => {
+export const atualizarUsuario = async (req, res) => {
   try {
     const { name, email } = req.body
     const refreshToken = req.cookies.refreshToken
 
     if (!refreshToken) return res.sendStatus(401) 
-    if (!name) return res.status(400).json({ message: "Name is required"})
-    if (!email) return res.status(400).json({ message: "Email is required" })
+    if (!name) return res.status(400).json({ message: "Nome é obrigatório."})
+    if (!email) return res.status(400).json({ message: "Email é obrigatório." })
 
     jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, decoded) => {
       if (err) return res.sendStatus(403)
@@ -139,7 +170,7 @@ export const updateUser = async (req, res) => {
 
     const user = await prisma.user.findUnique({
       where: {
-        id: req.params.userId
+        id: req.params.usuarioId
       }
     })
 
@@ -148,7 +179,7 @@ export const updateUser = async (req, res) => {
 
     await prisma.user.update({
       where: {
-        id: req.params.userId
+        id: req.params.usuarioId
       },
       data: {
         name,
@@ -156,13 +187,13 @@ export const updateUser = async (req, res) => {
       }
     })
 
-    res.status(200).json({ message: "User updated"})
+    res.status(200).json({ message: "Usuário atualizado com sucesso."})
   } catch (error) {
     console.log(error)
   }
 }
 
-export const logout = async (req, res) => {
+export const sair = async (req, res) => {
   try {
     const refreshToken = req.cookies.refreshToken
 

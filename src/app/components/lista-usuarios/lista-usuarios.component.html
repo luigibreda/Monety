@@ -1,0 +1,66 @@
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card-style clients-table-card mb-30">
+          <div class="table-wrapper table-responsive">
+            <table class="table clients-table">
+                <thead>
+                  <tr>
+                    <th>
+                      <h6>#</h6>
+                    </th>
+                    <th>
+                      <h6>Nome</h6>
+                    </th>
+                    <th>
+                      <h6>Email</h6>
+                    </th>
+                    <th>
+                      <h6>Tipo</h6>
+                    </th>
+                    <th>
+                      <h6>Estado</h6>
+                    </th>
+                    <th>
+                      <h6>Ação</h6>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let usuario of usuarios">
+                    <td>
+                      <div >
+                        {{ usuario.id }}<!-- <img [src]="usuario.imagem" alt=""> -->
+                      </div>
+                    </td>
+                    <td class="min-width">
+                      <p>{{ usuario.name }}</p>
+                    </td>
+                    <td class="min-width">
+                      <p><a href="mailto:{{ usuario.email }}">{{ usuario.email }}</a></p>
+                    </td>
+                    <td class="min-width">
+                      <p>Ativo</p>
+                    </td>
+                    <td>
+                      Ativo<!-- <span [ngClass]="{ 'status-btn active-btn': usuario.estado === 'Active', 'inactive-btn': usuario.estado === 'Inactive' }">{{ usuario.estado }}</span> -->
+                    </td>
+                    <td>
+                      <div class="action">
+                        <button class="text-danger">
+                          <i class="lni lni-trash-can"></i>
+                        </button>
+                        <!-- <button class="text-primary">
+                          <i class="lni lni-close"></i>
+                        </button>
+                        <button class="text-primary">
+                          <i class="lni lni-checkmark"></i>
+                        </button> -->
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+            </table>        
+           </div>
+        </div>
+    </div>
+</div>  
