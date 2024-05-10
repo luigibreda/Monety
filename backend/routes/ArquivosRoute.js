@@ -1,6 +1,5 @@
 import express from "express"
 import {
-  createArquivo,
   deleteArquivo,
   editArquivo,
   getAllArquivos,

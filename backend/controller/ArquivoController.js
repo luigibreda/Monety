@@ -61,7 +61,7 @@ export const getAllArquivos = async (req, res) => {
 // GET arquivos por usuário
 export const getUserArquivos = async (req, res) => {
   try {
-    const userId = req.params.userId
+    const userId = req.params.arquivoId
     const page = Number(req.query.page) || 0
     const limit = Number(req.query.limit) || 5
     const search = req.query.search_query || ""
@@ -69,7 +69,7 @@ export const getUserArquivos = async (req, res) => {
     const totalRows = await prisma.arquivos.count({
       where: {
         userId,
-        name: {
+        nome: {
           contains: search
         }
       }
@@ -80,7 +80,7 @@ export const getUserArquivos = async (req, res) => {
       take: limit,
       where: {
         userId,
-        name: {
+        nome: {
           contains: search
         }
       }
@@ -203,7 +203,7 @@ export const deleteArquivo = async (req, res) => {
 
     const user = await prisma.user.findUnique({
       where: {
-        id: userId  
+        id: req.usuario.userId  
       }
     })
 
@@ -212,8 +212,8 @@ export const deleteArquivo = async (req, res) => {
 
     const isArquivoExist = await prisma.arquivos.findUnique({
       where: {
-        id: Number(arquivoId),
-        userId
+        id: arquivoId,
+        userId: req.usuario.userId 
       }
     })
 
@@ -221,8 +221,8 @@ export const deleteArquivo = async (req, res) => {
 
     const deletedArquivo = await prisma.arquivos.delete({
       where: {
-        id: Number(arquivoId),
-        userId
+        id: arquivoId,
+        userId: req.usuario.userId 
       }
     })
 
