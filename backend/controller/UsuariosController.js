@@ -127,6 +127,7 @@ export const entrar = async (req, res) => {
     const userId = user.id
     const userEmail = user.email
     const userName = user.name
+    const isAdmin = user.isAdmin
 
     const token = jwt.sign({ userId, userEmail, userName }, process.env.ACCESS_TOKEN_SECRET, {
       expiresIn: '2h'
@@ -149,7 +150,7 @@ export const entrar = async (req, res) => {
       maxAge: 24 * 60 * 60 * 1000
     })
 
-    res.status(200).json({ token, userName, userId })
+    res.status(200).json({ user })
   } catch (error) {
     console.log(error)
   }
@@ -182,8 +183,7 @@ export const atualizarUsuario = async (req, res) => {
         id: req.params.usuarioId
       },
       data: {
-        name,
-        email,
+        body
       }
     })
 
@@ -220,5 +220,61 @@ export const sair = async (req, res) => {
     res.sendStatus(200)
   } catch (error) {
     console.log(error)
+  }
+}
+
+// DELETE usuário
+export const deleteUsuario = async (req, res) => {
+  try {
+    const refreshToken = req.cookies.refreshToken
+
+    if (!refreshToken) return res.sendStatus(401)
+
+    jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, decoded) => {
+      if (err) return res.sendStatus(403)
+    })
+    
+    const { userId, usuarioId } = req.params
+
+    const user = await prisma.user.findUnique({
+      where: {
+        id: userId  
+      }
+    })
+
+    if (!user) return res.sendStatus(404)
+    if (user.refresh_token !== refreshToken) return res.sendStatus(403)
+
+    if (user.isAdmin != false) return res.sendStatus(403);
+    
+    if (userId == usuarioId) return res.sendStatus(403);
+
+    const usuario = await prisma.user.findUnique({
+      where: {
+        id: usuarioId  
+      }
+    })
+
+    const isArquivoExist = await prisma.user.findUnique({
+      where: {
+        id: usuarioId  
+      }
+    })
+
+    if (!usuario) return res.sendStatus(404)
+
+    const usuarioDeletado = await prisma.user.delete({
+      where: {
+        id: usuarioId  
+      }
+    })
+
+    res.status(200).json({
+      message: "Usuário deletado",
+      data: usuarioDeletado
+    })
+  } catch (error) {
+    console.log(error)
+    res.sendStatus(400)
   }
 }

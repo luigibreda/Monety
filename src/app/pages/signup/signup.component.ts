@@ -45,9 +45,10 @@ export class SignUpComponent {
 
   submit(){
     if (this.signupForm.valid) {
-    this.loginService.signup(this.signupForm.value.name, this.signupForm.value.email, this.signupForm.value.password).subscribe({
+    const { name, email, password, passwordConfirm } = this.signupForm.value;
+    this.loginService.signup(name, email, password, passwordConfirm).subscribe({
       next: () => this.toastService.success("Registro criado com sucesso! Redirecionando..."),
-      error: () => this.toastService.error("Erro inesperado! Tente novamente mais tarde")
+      error: (err) => this.toastService.error(err.error.message)
     })
   } else {
     console.error("Por favor, preencha todos os campos corretamente.");

@@ -18,7 +18,14 @@ export class ListaUsuariosComponent implements OnInit {
   ngOnInit(): void {
     this.usuariosService.getUsuarios().subscribe(usuarios => {
       this.usuarios = usuarios;
-    });
+  });
   }
+
+  confirmarExclusao(id: string): void {
+    if (confirm("Tem certeza que deseja excluir este usuário?")) {
+      // Lógica para excluir o usuário com o ID fornecido
+      console.log("Usuário com ID", id, "excluído.");
+    }
+}
 
 }

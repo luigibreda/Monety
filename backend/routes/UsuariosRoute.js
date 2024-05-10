@@ -6,7 +6,8 @@ import {
   sair,
   registrar,
   atualizarUsuario,
-  usuarioLogado
+  usuarioLogado,
+  deleteUsuario
 } from "../controller/UsuariosController.js"
 import { verifyToken as verificaToken } from "../middlewares/verifyToken.js"
 import { refreshToken as atualizarToken } from "../controller/refreshToken.js"
@@ -16,6 +17,7 @@ const router = express.Router()
 router.get("/usuarios", obterTodosUsuarios)
 router.get("/usuarios/:usuarioId", obterUsuarioPorId)
 router.put("/usuarios/:usuarioId", verificaToken, atualizarUsuario)
+router.delete("/:userId/usuarios/:usuarioId", verificaToken, deleteUsuario)
 
 router.get("/auth/eu", verificaToken, usuarioLogado);
 router.post("/auth/registrar", registrar)

@@ -12,6 +12,8 @@ model User {
   name          String
   email         String
   password      String
+  isAdmin       Boolean   @default(false)
+  ativo       Boolean   @default(true)
   refresh_token String?
   arquivos      Arquivos[] 
   createdAt     DateTime  @default(now())
@@ -20,8 +22,8 @@ model User {
 
 model Arquivos {
   id        String    @id @default(uuid()) @map("_id")
-  name      String
-  price     Int
+  nome      String
+  path      String
   userId    String
   user      User     @relation(fields: [userId], references: [id])
   createdAt DateTime @default(now())
