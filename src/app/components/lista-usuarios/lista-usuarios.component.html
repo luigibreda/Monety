@@ -15,10 +15,10 @@
                       <h6>Email</h6>
                     </th>
                     <th>
-                      <h6>Tipo</h6>
+                      <h6>Ativo</h6>
                     </th>
                     <th>
-                      <h6>Estado</h6>
+                      <h6>Admin</h6>
                     </th>
                     <th>
                       <h6>Ação</h6>
@@ -39,11 +39,14 @@
                       <p><a href="mailto:{{ usuario.email }}">{{ usuario.email }}</a></p>
                     </td>
                     <td class="min-width">
-                      <p>Ativo</p>
+                      <p>
+                        <span [ngClass]="usuario.ativo ? 'badge bg-primary' : 'badge bg-danger'">{{ usuario.ativo ? 'Sim' : 'Não' }}</span>
+                      </p>
                     </td>
                     <td>
-                      Ativo<!-- <span [ngClass]="{ 'status-btn active-btn': usuario.estado === 'Active', 'inactive-btn': usuario.estado === 'Inactive' }">{{ usuario.estado }}</span> -->
-                    </td>
+                        <p>
+                            <span [ngClass]="usuario.isAdmin ? 'badge bg-danger' : 'badge bg-secondary'">{{ usuario.isAdmin ? 'Sim' : 'Não' }}</span>
+                          </p>                    </td>
                     <td>
                       <div class="action">
                         <button class="text-danger" (click)="confirmarExclusao(usuario.id.toString())">

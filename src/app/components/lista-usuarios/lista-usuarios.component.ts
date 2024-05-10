@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Usuario, UsuariosService } from '../../services/usuario.service';
+import { UsuariosService } from '../../services/usuario.service';
 import { CommonModule } from '@angular/common';
+import { Usuario } from '../../types/usuario.type';
 
 @Component({
   selector: 'app-lista-usuarios',
