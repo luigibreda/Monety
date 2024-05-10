@@ -7,7 +7,7 @@ import {
   registrar,
   atualizarUsuario,
   usuarioLogado
-} from "../controller/UserController.js"
+} from "../controller/UsuariosController.js"
 import { verifyToken as verificaToken } from "../middlewares/verifyToken.js"
 import { refreshToken as atualizarToken } from "../controller/refreshToken.js"
 
