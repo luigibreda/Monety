@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { LoginService } from '../../services/login.service';
 import { CommonModule } from '@angular/common';
 import { AuthGuard } from '../../services/auth-guard.service';
@@ -11,13 +11,25 @@ import { Router, RouterLink } from '@angular/router';
   templateUrl: './menu-topo.component.html',
   styleUrl: './menu-topo.component.scss'
 })
-export class MenuTopoComponent {
-  
+export class MenuTopoComponent implements OnInit {
+  userName: string = ''; // Adicionando inicializador
+
   constructor(public authGuard: AuthGuard, private loginService: LoginService, private router: Router) {}
 
-  sair() {
-    this.loginService.logout();
+  ngOnInit(): void {
+    // Recupera o nome do usuário do token JWT na sessão ao inicializar o componente
+    const authToken = sessionStorage.getItem('auth-token');
+    if (authToken) {
+      const tokenPayload = JSON.parse(atob(authToken.split('.')[1]));
+      this.userName = tokenPayload.userName;
+    }
   }
+
+  sair() {
+    // Limpa os dados de autenticação armazenados na sessão
+    sessionStorage.removeItem('auth-token');
+    sessionStorage.removeItem('username');
+      }
 
   Home() {
     this.router.navigate(['/']); 

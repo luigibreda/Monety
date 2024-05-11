@@ -1,28 +1,31 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { LoginResponse } from '../types/login-response.type';
+import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { tap } from 'rxjs';
+import { tap } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
+import { LoginResponse } from '../types/login-response.type';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LoginService {
-  apiUrl: string = environment.apiUrl
+  apiUrl: string = environment.apiUrl;
 
-  constructor(private httpClient: HttpClient, private router: Router) { 
-    console.log('URL Api: ' + environment.apiUrl);
-  }
+  constructor(private httpClient: HttpClient, private router: Router) { }
 
-  login(email: string, password: string){
-    return this.httpClient.post<LoginResponse>(this.apiUrl + "/auth/entrar", { email, password }).pipe(
-      tap((value) => {
-        sessionStorage.setItem("auth-token", value.token)
-        sessionStorage.setItem("username", value.name)
-        this.router.navigate(['/dashboard']); 
+  login(email: string, password: string) {
+    return this.httpClient.post<any>(`${this.apiUrl}/auth/entrar`, { email, password }).pipe(
+      tap((response) => {
+        // Armazena o token JWT na sessão
+        sessionStorage.setItem('auth-token', response.token);
+        
+        // Armazena o nome do usuário na sessão
+        sessionStorage.setItem('username', response.userName);
+
+        // Navega para a página de dashboard após o login
+        this.router.navigate(['/dashboard']);
       })
-    )
+    );
   }
 
     signup(name: string, email: string, password: string, confirmPassword: string){
