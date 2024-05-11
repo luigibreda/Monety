@@ -18,9 +18,13 @@ export class ListaUsuariosComponent implements OnInit {
   constructor(private usuariosService: UsuariosService, private toastService: ToastrService) { }
 
   ngOnInit(): void {
+    this.carregarUsuarios(); // Chama o método para carregar os usuários ao iniciar o componente
+  }
+
+  carregarUsuarios(): void {
     this.usuariosService.getUsuarios().subscribe(usuarios => {
       this.usuarios = usuarios;
-  });
+    });
   }
 
   confirmarExclusao(id: string): void {
@@ -36,9 +40,10 @@ export class ListaUsuariosComponent implements OnInit {
       next: (response) => {
         console.log('Usuário deletado com sucesso');
         this.toastService.success("Usuário deletado com sucesso");
+        this.carregarUsuarios(); // Atualiza os dados da tabela após a exclusão bem-sucedida
       },
       error: (error) => {
-        this.toastService.error("Erro: " + error.error.mensagem)
+        this.toastService.error("Erro Statuss: " + (error.error && error.error.mensagem ? error.error.mensagem : error.status));
         console.error('Erro ao deletar usuário', error.message);
       }
     });
