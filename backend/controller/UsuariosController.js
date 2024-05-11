@@ -228,28 +228,22 @@ export const deleteUsuario = async (req, res) => {
       if (err) return res.sendStatus(403)
     })
     
-    const { userId, usuarioId } = req.params
+    const { usuarioId } = req.params
 
     const user = await prisma.user.findUnique({
       where: {
-        id: userId  
+        id: req.usuario.userId  
       }
     })
 
     if (!user) return res.sendStatus(404)
     if (user.refresh_token !== refreshToken) return res.sendStatus(403)
 
-    if (user.isAdmin != false) return res.sendStatus(403);
+    if (user.isAdmin == false) return res.sendStatus(403);
     
-    if (userId == usuarioId) return res.sendStatus(403);
+    if (user.id == usuarioId) return res.sendStatus(403);
 
     const usuario = await prisma.user.findUnique({
-      where: {
-        id: usuarioId  
-      }
-    })
-
-    const isArquivoExist = await prisma.user.findUnique({
       where: {
         id: usuarioId  
       }
