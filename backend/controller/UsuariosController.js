@@ -144,7 +144,7 @@ export const entrar = async (req, res) => {
       maxAge: 24 * 60 * 60 * 1000
     })
 
-    res.status(200).json({ user })
+    res.status(200).json({ token })
   } catch (error) {
     console.log(error)
   }
