@@ -12,24 +12,27 @@ import { Router, RouterLink } from '@angular/router';
   styleUrl: './menu-topo.component.scss'
 })
 export class MenuTopoComponent implements OnInit {
-  userName: string = ''; // Adicionando inicializador
+  userName: string = '';
+  userEmail: string = '';
 
   constructor(public authGuard: AuthGuard, private loginService: LoginService, private router: Router) {}
 
   ngOnInit(): void {
-    // Recupera o nome do usuário do token JWT na sessão ao inicializar o componente
+    this.updateUserInfo();
+  }
+
+  updateUserInfo(): void {
     const authToken = sessionStorage.getItem('auth-token');
     if (authToken) {
       const tokenPayload = JSON.parse(atob(authToken.split('.')[1]));
       this.userName = tokenPayload.userName;
+      this.userEmail = tokenPayload.userEmail; 
     }
   }
 
   sair() {
-    // Limpa os dados de autenticação armazenados na sessão
-    sessionStorage.removeItem('auth-token');
-    sessionStorage.removeItem('username');
-      }
+    this.loginService.logout();
+  }
 
   Home() {
     this.router.navigate(['/']); 
@@ -42,5 +45,4 @@ export class MenuTopoComponent implements OnInit {
   Registrar() {
     this.router.navigate(['/signup']); 
   }
-
 }

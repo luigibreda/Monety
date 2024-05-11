@@ -16,33 +16,26 @@ export class LoginService {
   login(email: string, password: string) {
     return this.httpClient.post<any>(`${this.apiUrl}/auth/entrar`, { email, password }).pipe(
       tap((response) => {
-        // Armazena o token JWT na sessão
         sessionStorage.setItem('auth-token', response.token);
-        
-        // Armazena o nome do usuário na sessão
         sessionStorage.setItem('username', response.userName);
-
-        // Navega para a página de dashboard após o login
+        sessionStorage.setItem('useremail', response.userEmail);
         this.router.navigate(['/dashboard']);
       })
     );
   }
 
-    signup(name: string, email: string, password: string, confirmPassword: string){
-      return this.httpClient.post<LoginResponse>(this.apiUrl + "/auth/registrar", { name, email, password, confirmPassword }).pipe(
-        tap((value) => {
-          this.router.navigate(['/login']); 
-        })
-      )
+  signup(name: string, email: string, password: string, confirmPassword: string){
+    return this.httpClient.post<LoginResponse>(this.apiUrl + "/auth/registrar", { name, email, password, confirmPassword }).pipe(
+      tap((value) => {
+        this.router.navigate(['/login']); 
+      })
+    )
   }
 
   logout() {
-    // Limpa os dados de autenticação armazenados na sessão
     sessionStorage.removeItem('auth-token');
     sessionStorage.removeItem('username');
-
-    // Redireciona o usuário para a página de login
+    sessionStorage.removeItem('useremail'); 
     this.router.navigate(['/']);
   }
-
 }
