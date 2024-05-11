@@ -19,7 +19,7 @@ export class UsuariosService {
     return this.http.get<Usuario[]>(`${this.apiUrl}`);
   }
 
-  deletaUsuario(userId: number): Observable<any> {
-    return this.http.delete(`${this.apiUrl}/usuarios/${userId}`);
+  deletaUsuario(id: string): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/${id}`);
   }
 }

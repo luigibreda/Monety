@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { UsuariosService } from '../../services/usuario.service';
 import { CommonModule } from '@angular/common';
 import { Usuario } from '../../types/usuario.type';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-lista-usuarios',
@@ -14,7 +15,7 @@ export class ListaUsuariosComponent implements OnInit {
 
   usuarios: Usuario[] = [];
 
-  constructor(private usuariosService: UsuariosService) { }
+  constructor(private usuariosService: UsuariosService, private toastService: ToastrService) { }
 
   ngOnInit(): void {
     this.usuariosService.getUsuarios().subscribe(usuarios => {
@@ -25,8 +26,22 @@ export class ListaUsuariosComponent implements OnInit {
   confirmarExclusao(id: string): void {
     if (confirm("Tem certeza que deseja excluir este usuário?")) {
       // Lógica para excluir o usuário com o ID fornecido
+      this.deletaUsuario(id);
       console.log("Usuário com ID", id, "excluído.");
     }
-}
+  }
+
+  deletaUsuario(id: string): void {
+    this.usuariosService.deletaUsuario(id).subscribe({
+      next: (response) => {
+        console.log('Usuário deletado com sucesso');
+        this.toastService.success("Usuário deletado com sucesso");
+      },
+      error: (error) => {
+        this.toastService.error("Erro: " + error.error.mensagem)
+        console.error('Erro ao deletar usuário', error.message);
+      }
+    });
+  }
 
 }
