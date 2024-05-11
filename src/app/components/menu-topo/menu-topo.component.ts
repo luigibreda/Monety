@@ -12,22 +12,10 @@ import { Router, RouterLink } from '@angular/router';
   styleUrl: './menu-topo.component.scss'
 })
 export class MenuTopoComponent implements OnInit {
-  userName: string = '';
-  userEmail: string = '';
 
-  constructor(public authGuard: AuthGuard, private loginService: LoginService, private router: Router) {}
+  constructor(public authGuard: AuthGuard, public loginService: LoginService, private router: Router) {}
 
   ngOnInit(): void {
-    this.updateUserInfo();
-  }
-
-  updateUserInfo(): void {
-    const authToken = sessionStorage.getItem('auth-token');
-    if (authToken) {
-      const tokenPayload = JSON.parse(atob(authToken.split('.')[1]));
-      this.userName = tokenPayload.userName;
-      this.userEmail = tokenPayload.userEmail; 
-    }
   }
 
   sair() {

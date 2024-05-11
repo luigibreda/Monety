@@ -22,8 +22,9 @@
                     <img src="assets/images/profile/image.png" alt="" />
                   </div>
                   <div>
-                    <h6 class="fw-500">{{ userName }}</h6>
-                    <p>{{ userEmail }}</p> <!-- Mudança aqui -->
+                    <h6 class="fw-500">{{ loginService.getUserName() }}</h6>
+                    <p>{{ loginService.getUserEmail() }}</p>
+
                   </div>
                 </div>
               </div>
@@ -35,9 +36,9 @@
                     <img src="assets/images/profile/image.png" alt="image">
                   </div>
                   <div class="content">
-                    <h4 class="text-sm">{{ userName }}</h4>
+                    <h4 class="text-sm">{{ loginService.getUserName() }}</h4>
                     <a class="text-black/40 dark:text-white/40 hover:text-black dark:hover:text-white text-xs" href="#">
-                      {{ userEmail }} <!-- Mudança aqui -->
+                      {{ loginService.getUserEmail() }} <!-- Mudança aqui -->
                     </a>
                   </div>
                 </div>

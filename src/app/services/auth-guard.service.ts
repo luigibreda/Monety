@@ -26,13 +26,5 @@ export class AuthGuard implements CanActivate {
     const authToken = sessionStorage.getItem('auth-token');
     return !!authToken; // Retorna true se authToken existe
   }
-
-  getUserName(): string | null {
-    return sessionStorage.getItem('username');
-  }
-
-  getUserEmail(): string | null {
-    return sessionStorage.getItem('useremail');
-  }
   
 }
