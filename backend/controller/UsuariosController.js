@@ -220,6 +220,10 @@ export const sair = async (req, res) => {
 // DELETE usuário
 export const deleteUsuario = async (req, res) => {
   try {
+    console.log("logs luigi:");
+    console.log(req);
+    console.log(req.cookies);
+    console.log(req.cookies.refreshToken);
     const refreshToken = req.cookies.refreshToken
 
     if (!refreshToken) return res.sendStatus(401)
