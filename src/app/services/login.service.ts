@@ -21,7 +21,8 @@ export class LoginService {
         const tokenPayload = JSON.parse(atob(response.token.split('.')[1]));
         sessionStorage.setItem('userName', tokenPayload.userName);
         sessionStorage.setItem('userEmail', tokenPayload.userEmail);    
-            
+        sessionStorage.setItem('isAdmin', tokenPayload.isAdmin);    
+
         this.router.navigate(['/dashboard']);
         })
     );

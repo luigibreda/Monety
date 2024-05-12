@@ -123,10 +123,10 @@ export const entrar = async (req, res) => {
     const userName = user.name
     const isAdmin = user.isAdmin
 
-    const token = jwt.sign({ userId, userEmail, userName }, process.env.ACCESS_TOKEN_SECRET, {
+    const token = jwt.sign({ userId, userEmail, userName, isAdmin }, process.env.ACCESS_TOKEN_SECRET, {
       expiresIn: '2h'
     })
-    const refreshToken = jwt.sign({ userId, userEmail, userName }, process.env.REFRESH_TOKEN_SECRET, {
+    const refreshToken = jwt.sign({ userId, userEmail, userName, isAdmin }, process.env.REFRESH_TOKEN_SECRET, {
       expiresIn: '1d'
     })
 
