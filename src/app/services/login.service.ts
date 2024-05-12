@@ -39,7 +39,8 @@ export class LoginService {
   logout() {
     sessionStorage.removeItem('auth-token');
     sessionStorage.removeItem('userName');
-    sessionStorage.removeItem('userEmail'); 
+    sessionStorage.removeItem('userEmail');   
+    sessionStorage.removeItem('isAdmin');    
     this.cookieService.delete('refreshToken');
     this.router.navigate(['/']);
   }
