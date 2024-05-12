@@ -21,6 +21,7 @@ export class LoginService {
         const tokenPayload = JSON.parse(atob(response.token.split('.')[1]));
         sessionStorage.setItem('userName', tokenPayload.userName);
         sessionStorage.setItem('userEmail', tokenPayload.userEmail);    
+        sessionStorage.setItem('userId', tokenPayload.userId);    
         sessionStorage.setItem('isAdmin', tokenPayload.isAdmin);    
 
         this.router.navigate(['/dashboard']);
@@ -40,6 +41,7 @@ export class LoginService {
     sessionStorage.removeItem('auth-token');
     sessionStorage.removeItem('userName');
     sessionStorage.removeItem('userEmail');   
+    sessionStorage.removeItem('userId');    
     sessionStorage.removeItem('isAdmin');    
     this.cookieService.delete('refreshToken');
     this.router.navigate(['/']);
