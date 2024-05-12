@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { LoginService } from '../../services/login.service';
 import { CommonModule } from '@angular/common';
 import { AuthGuard } from '../../services/auth-guard.service';
@@ -11,9 +11,12 @@ import { Router, RouterLink } from '@angular/router';
   templateUrl: './menu-topo.component.html',
   styleUrl: './menu-topo.component.scss'
 })
-export class MenuTopoComponent {
-  
-  constructor(public authGuard: AuthGuard, private loginService: LoginService, private router: Router) {}
+export class MenuTopoComponent implements OnInit {
+
+  constructor(public authGuard: AuthGuard, public loginService: LoginService, private router: Router) {}
+
+  ngOnInit(): void {
+  }
 
   sair() {
     this.loginService.logout();
@@ -30,5 +33,4 @@ export class MenuTopoComponent {
   Registrar() {
     this.router.navigate(['/signup']); 
   }
-
 }

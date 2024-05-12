@@ -123,10 +123,10 @@ export const entrar = async (req, res) => {
     const userName = user.name
     const isAdmin = user.isAdmin
 
-    const token = jwt.sign({ userId, userEmail, userName }, process.env.ACCESS_TOKEN_SECRET, {
+    const token = jwt.sign({ userId, userEmail, userName, isAdmin }, process.env.ACCESS_TOKEN_SECRET, {
       expiresIn: '2h'
     })
-    const refreshToken = jwt.sign({ userId, userEmail, userName }, process.env.REFRESH_TOKEN_SECRET, {
+    const refreshToken = jwt.sign({ userId, userEmail, userName, isAdmin }, process.env.REFRESH_TOKEN_SECRET, {
       expiresIn: '1d'
     })
 
@@ -144,7 +144,7 @@ export const entrar = async (req, res) => {
       maxAge: 24 * 60 * 60 * 1000
     })
 
-    res.status(200).json({ user })
+    res.status(200).json({ token })
   } catch (error) {
     console.log(error)
   }
@@ -228,28 +228,22 @@ export const deleteUsuario = async (req, res) => {
       if (err) return res.sendStatus(403)
     })
     
-    const { userId, usuarioId } = req.params
+    const { usuarioId } = req.params
 
     const user = await prisma.user.findUnique({
       where: {
-        id: userId  
+        id: req.usuario.userId  
       }
     })
 
     if (!user) return res.sendStatus(404)
     if (user.refresh_token !== refreshToken) return res.sendStatus(403)
 
-    if (user.isAdmin != false) return res.sendStatus(403);
+    if (user.isAdmin == false) return res.sendStatus(403);
     
-    if (userId == usuarioId) return res.sendStatus(403);
+    if (user.id == usuarioId) return res.sendStatus(403);
 
     const usuario = await prisma.user.findUnique({
-      where: {
-        id: usuarioId  
-      }
-    })
-
-    const isArquivoExist = await prisma.user.findUnique({
       where: {
         id: usuarioId  
       }
