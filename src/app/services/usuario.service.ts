@@ -25,6 +25,6 @@ export class UsuariosService {
   }
 
   deletaUsuario(id: string): Observable<any> {
-    return this.http.delete(`${this.apiUrl}/${id}`, { headers: this.getHeaders() });
+    return this.http.delete(`${this.apiUrl}/${id}`, { headers: this.getHeaders(), withCredentials: true });
   }
 }

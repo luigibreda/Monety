@@ -220,8 +220,7 @@ export const sair = async (req, res) => {
 // DELETE usuário
 export const deleteUsuario = async (req, res) => {
   try {
-    const [bearer, token] = req.headers.authorization.split(' ');
-    const refreshToken = token
+    const refreshToken = req.cookies.refreshToken
 
     if (!refreshToken) return res.sendStatus(401)
 
@@ -238,7 +237,7 @@ export const deleteUsuario = async (req, res) => {
     })
 
     if (!user) return res.sendStatus(404)
-    // if (user.refresh_token !== refreshToken) return res.sendStatus(403)
+    if (user.refresh_token !== refreshToken) return res.sendStatus(403)
 
     if (user.isAdmin == false) return res.sendStatus(403);
     
