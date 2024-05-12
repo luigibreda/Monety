@@ -141,6 +141,8 @@ export const entrar = async (req, res) => {
 
     res.cookie("refreshToken", refreshToken, {
       httpOnly: true,
+      secure: true, // Somente quando estiver em uma conexão HTTPS
+      sameSite: 'none', // Necessário para que os cookies funcionem em um ambiente de terceiros
       maxAge: 24 * 60 * 60 * 1000
     })
 
