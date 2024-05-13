@@ -26,7 +26,10 @@ interface LoginForm {
   styleUrl: './login.component.scss'
 })
 export class LoginComponent {
-  loginForm!: FormGroup<LoginForm>;
+  title: string = "Welcome Back";
+  primaryBtnText: string = "Sign In";
+  secondaryBtnText: string = "Create an account";
+  loginForm!: FormGroup;
 
   constructor(
     private router: Router,
