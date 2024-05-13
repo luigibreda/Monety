@@ -22,7 +22,8 @@ export class PerfilComponent {
     ativo: false,
     userId: '',
     createdAt: '',
-    updatedAt: ''
+    updatedAt: '',
+    nome: ''
   };
 
   constructor(public loginService: LoginService, private usuariosService: UsuariosService, private toastService: ToastrService) { }
