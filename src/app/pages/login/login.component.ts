@@ -26,9 +26,9 @@ interface LoginForm {
   styleUrl: './login.component.scss'
 })
 export class LoginComponent {
-  title: string = "Welcome Back";
-  primaryBtnText: string = "Sign In";
-  secondaryBtnText: string = "Create an account";
+  title: string = "Bem vindo de volta!";
+  primaryBtnText: string = "Efetue o login";
+  secondaryBtnText: string = "Crie sua conta";
   loginForm!: FormGroup;
 
   constructor(
