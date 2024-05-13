@@ -3,17 +3,17 @@
     <div class="row">
       <div class="col-lg-5 col-md-5 col-6">
         <div class="header-left d-flex align-items-center">
-          <div *ngIf="authGuard.isAuthenticated()" class="menu-toggle-btn mr-15">
+          <div [class.hidden]="!authGuard.isAuthenticated()" class="menu-toggle-btn mr-15">
             <button id="menu-toggle" class="main-btn primary-btn btn-hover">
               <i class="lni lni-chevron-left me-2"></i> Menu
             </button>
           </div>
-          <h1 (click)="Home()" *ngIf="!authGuard.isAuthenticated()" style="color: #8a32fc; cursor: pointer;">Monety</h1>
+          <h1 (click)="Home()" [class.hidden]="authGuard.isAuthenticated()" style="color: #8a32fc; cursor: pointer;">Monety</h1>
         </div>
       </div>
       <div class="col-lg-7 col-md-7 col-6">
         <div class="header-right">
-          <div *ngIf="authGuard.isAuthenticated()" class="profile-box ml-15">
+          <div [class.hidden]="!authGuard.isAuthenticated()"class="profile-box ml-15">
             <button class="dropdown-toggle bg-transparent border-0" type="button" id="profile" data-bs-toggle="dropdown"
               aria-expanded="false">
               <div class="profile-info">

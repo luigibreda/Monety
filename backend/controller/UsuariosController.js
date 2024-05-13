@@ -179,7 +179,8 @@ export const atualizarUsuario = async (req, res) => {
         id: req.params.usuarioId
       },
       data: {
-        body
+        name: name,
+        email: email
       }
     })
 
