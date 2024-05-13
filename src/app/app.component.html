@@ -19,7 +19,7 @@
   <!-- ======== Preloader =========== -->
 
   <!-- ======== sidebar-nav start =========== -->
-  <app-menu-lateral *ngIf="authGuard.isAuthenticated()"></app-menu-lateral>
+  <app-menu-lateral [class.hidden]="!authGuard.isAuthenticated()"></app-menu-lateral>
   <div class="overlay"></div>
 
   <main [class.main-wrapper]="authGuard.isAuthenticated()">
