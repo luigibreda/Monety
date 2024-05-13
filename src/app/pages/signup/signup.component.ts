@@ -43,17 +43,22 @@ export class SignUpComponent {
     })
   }
 
-  submit(){
-    if (this.signupForm.valid) {
-    const { name, email, password, passwordConfirm } = this.signupForm.value;
-    this.loginService.signup(name, email, password, passwordConfirm).subscribe({
-      next: () => this.toastService.success("Registro criado com sucesso! Redirecionando..."),
-      error: (err) => this.toastService.error(err.error.message)
-    })
-  } else {
-    console.error("Por favor, preencha todos os campos corretamente.");
-  }
-  }
+  submit() {
+    this.loginService.signup(
+      this.signupForm.value.name,
+      this.signupForm.value.email,
+      this.signupForm.value.password,
+      this.signupForm.value.passwordConfirm
+    ).subscribe({
+      next: () => {
+        this.toastService.success("Registro criado com sucesso! Redirecionando...");
+        this.router.navigate(["login"]);
+      },
+      error: (err) => {
+        this.toastService.error(err.error.message || "Erro inesperado! Tente novamente mais tarde");
+    }
+    });
+}
 
   navigate(){
     this.router.navigate(["login"])
