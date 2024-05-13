@@ -32,4 +32,8 @@ export class UsuariosService {
     return this.http.get(`${this.apiUrl}/${id}`, { headers: this.getHeaders(), withCredentials: true });
   }
 
+  atualizaUsuario(id: string, dadosUsuario: any): Observable<any> {
+    return this.http.put(`${this.apiUrl}/${id}`, dadosUsuario, { headers: this.getHeaders(), withCredentials: true  });
+  }
+
 }
