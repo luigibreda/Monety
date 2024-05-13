@@ -1,17 +1,19 @@
 import { Component, OnInit } from '@angular/core';
 import { ArquivosService } from '../../services/arquivo.service';
-import { Arquivos } from '../../types/arquivo.type';
+import { Arquivo } from '../../types/arquivo.type';
 import { ToastrService } from 'ngx-toastr';
-import { CommonModule, DatePipe } from '@angular/common'; // Importação do CommonModule e DatePipe
+import { CommonModule } from '@angular/common'; // Importação do CommonModule e DatePipe
 
 @Component({
   selector: 'app-lista-arquivos',
   templateUrl: './arquivos.component.html',
+  imports: [CommonModule],
+  standalone: true,
   styleUrls: ['./arquivos.component.scss']
 })
 export class ArquivosComponent implements OnInit {
 
-  arquivos: Arquivos[] = [];
+  arquivos: Arquivo[] = [];
 
   constructor(private arquivosService: ArquivosService, private toastr: ToastrService) { }
 
@@ -21,8 +23,13 @@ export class ArquivosComponent implements OnInit {
 
   carregarArquivos(): void {
     this.arquivosService.getAllArquivos().subscribe(
-      (arquivos: Arquivos[]) => {
-        this.arquivos = arquivos;
+      (response: any) => {
+        if (Array.isArray(response.result)) { // Verifique se response.result é uma matriz
+          this.arquivos = response.result;
+        } else {
+          console.error('Erro ao carregar arquivos: response.result não é uma matriz');
+          this.toastr.error('Erro ao carregar arquivos. Por favor, tente novamente mais tarde.');
+        }
       },
       (error: any) => {
         console.error('Erro ao carregar arquivos:', error);
@@ -30,6 +37,7 @@ export class ArquivosComponent implements OnInit {
       }
     );
   }
+  
 
   confirmarExclusao(userId: string, arquivoId: string): void {
     if (confirm('Tem certeza que deseja excluir este arquivo?')) {
@@ -38,7 +46,7 @@ export class ArquivosComponent implements OnInit {
   }
 
   deletarArquivo(userId: string, arquivoId: string): void {
-    this.arquivosService.deleteArquivo(userId, arquivoId).subscribe(
+    this.arquivosService.deleteArquivo(userId).subscribe(
       () => {
         this.toastr.success('Arquivo excluído com sucesso.');
         this.carregarArquivos(); // Atualiza a lista após a exclusão

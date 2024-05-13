@@ -1,7 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Arquivos } from '../types/arquivo.type';
 import { environment } from '../../environments/environment';
 
 @Injectable({
@@ -13,13 +12,13 @@ export class ArquivosService {
 
   constructor(private http: HttpClient) { }
 
-  getAllArquivos(): Observable<Arquivos[]> {
-    return this.http.get<Arquivos[]>(`${this.apiUrl}`);
+  getAllArquivos(page: number = 0, limit: number = 10, search: string = ""): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}?page=${page}&limit=${limit}&search_query=${search}`);
   }
 
-  deleteArquivo(userId: string, arquivoId: string): Observable<any> {
-    return this.http.delete(`${this.apiUrl}/${userId}/arquivos/${arquivoId}`);
+  deleteArquivo(arquivoId: string): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/${arquivoId}`);
   }
-
+  
   // Adicione outros métodos conforme necessário para editar, visualizar e carregar arquivos
 }
