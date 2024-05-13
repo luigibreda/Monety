@@ -15,38 +15,40 @@ export class ListaUsuariosComponent implements OnInit {
 
   usuarios: Usuario[] = [];
 
-  constructor(private usuariosService: UsuariosService, private toastService: ToastrService) { }
+  constructor(private usuariosService: UsuariosService, private toastr: ToastrService) { }
 
   ngOnInit(): void {
-    this.carregarUsuarios(); // Chama o método para carregar os usuários ao iniciar o componente
+    this.carregarUsuarios();
   }
 
   carregarUsuarios(): void {
-    this.usuariosService.getUsuarios().subscribe(usuarios => {
-      this.usuarios = usuarios;
-    });
+    this.usuariosService.getUsuarios().subscribe(
+      usuarios => {
+        this.usuarios = usuarios;
+      },
+      error => {
+        console.error('Erro ao carregar usuários:', error);
+        this.toastr.error('Erro ao carregar usuários. Por favor, tente novamente mais tarde.');
+      }
+    );
   }
 
   confirmarExclusao(id: string): void {
-    if (confirm("Tem certeza que deseja excluir este usuário?")) {
-      // Lógica para excluir o usuário com o ID fornecido
-      this.deletaUsuario(id);
-      console.log("Usuário com ID", id, "excluído.");
+    if (confirm('Tem certeza que deseja excluir este usuário?')) {
+      this.deletarUsuario(id);
     }
   }
 
-  deletaUsuario(id: string): void {
-    this.usuariosService.deletaUsuario(id).subscribe({
-      next: (response) => {
-        console.log('Usuário deletado com sucesso');
-        this.toastService.success("Usuário deletado com sucesso");
-        this.carregarUsuarios(); // Atualiza os dados da tabela após a exclusão bem-sucedida
+  deletarUsuario(id: string): void {
+    this.usuariosService.deletaUsuario(id).subscribe(
+      () => {
+        this.toastr.success('Usuário excluído com sucesso.');
+        this.carregarUsuarios(); // Atualiza a lista após a exclusão
       },
-      error: (error) => {
-        this.toastService.error("Erro Statuss: " + (error.error && error.error.mensagem ? error.error.mensagem : error.status));
-        console.error('Erro ao deletar usuário', error.message);
+      error => {
+        console.error('Erro ao excluir usuário:', error);
+        this.toastr.error('Erro ao excluir usuário. Por favor, tente novamente mais tarde.');
       }
-    });
+    );
   }
-
 }
