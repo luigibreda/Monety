@@ -54,3 +54,7 @@ body > main > app-home > div.bg-dark.text-secondary.px-4.py-5.text-center > div 
 .hidden {
     display: none !important;
   }
+
+  .main-wrapper.logged-out {
+    margin-left: 0 !important;
+  }

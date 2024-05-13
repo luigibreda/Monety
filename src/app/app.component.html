@@ -22,7 +22,7 @@
   <app-menu-lateral [class.hidden]="!authGuard.isAuthenticated()"></app-menu-lateral>
   <div class="overlay"></div>
 
-  <main [class.main-wrapper]="authGuard.isAuthenticated()">
+  <main class="main-wrapper" [class.logged-out]="!authGuard.isAuthenticated()">
     <!-- ========== header start ========== -->
     <app-menu-topo ></app-menu-topo>
 		  
