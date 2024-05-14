@@ -39,14 +39,14 @@ export class ArquivosComponent implements OnInit {
   }
   
 
-  confirmarExclusao(userId: string, arquivoId: string): void {
+  confirmarExclusao( arquivoId: string): void {
     if (confirm('Tem certeza que deseja excluir este arquivo?')) {
-      this.deletarArquivo(userId, arquivoId);
+      this.deletarArquivo( arquivoId);
     }
   }
 
-  deletarArquivo(userId: string, arquivoId: string): void {
-    this.arquivosService.deleteArquivo(userId).subscribe(
+  deletarArquivo( arquivoId: string): void {
+    this.arquivosService.deleteArquivo( arquivoId).subscribe(
       () => {
         this.toastr.success('Arquivo excluído com sucesso.');
         this.carregarArquivos(); // Atualiza a lista após a exclusão
@@ -57,4 +57,5 @@ export class ArquivosComponent implements OnInit {
       }
     );
   }
+  
 }

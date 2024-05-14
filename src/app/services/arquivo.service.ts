@@ -1,7 +1,8 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
+import { Arquivo } from '../types/arquivo.type';
 
 @Injectable({
   providedIn: 'root'
@@ -12,13 +13,18 @@ export class ArquivosService {
 
   constructor(private http: HttpClient) { }
 
-  getAllArquivos(page: number = 0, limit: number = 10, search: string = ""): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}?page=${page}&limit=${limit}&search_query=${search}`);
+  private getHeaders(): HttpHeaders {
+    const token = sessionStorage.getItem('auth-token');
+    return new HttpHeaders().set('Authorization', `Bearer ${token}`);
   }
 
-  deleteArquivo(arquivoId: string): Observable<any> {
-    return this.http.delete(`${this.apiUrl}/${arquivoId}`);
+  getAllArquivos(page: number = 0, limit: number = 10, search: string = ""): Observable<Arquivo[]> {
+    return this.http.get<Arquivo[]>(`${this.apiUrl}?page=${page}&limit=${limit}&search_query=${search}`, { headers: this.getHeaders() });
   }
-  
+
+  deleteArquivo( arquivoId: string): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/${arquivoId}`, { headers: this.getHeaders(), withCredentials: true });
+  }
+
   // Adicione outros métodos conforme necessário para editar, visualizar e carregar arquivos
 }

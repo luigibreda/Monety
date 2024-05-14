@@ -19,7 +19,7 @@ router.get("/:userId/arquivos", getUserArquivos)
 router.get("/:userId/arquivos/:arquivoId", getArquivo)
 // router.post("/:userId/arquivos", verifyToken, createArquivo)
 router.put("/:userId/arquivos/:arquivoId", verifyToken, editArquivo)
-router.delete("/:userId/arquivos/:arquivoId", verifyToken, deleteArquivo)
+router.delete("/arquivos/:arquivoId", verifyToken, deleteArquivo)
 // router.post("/:userId/upload", verifyToken, upload, enviaArquivo);
 
 

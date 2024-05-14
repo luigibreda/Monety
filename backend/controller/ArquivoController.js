@@ -199,7 +199,7 @@ export const deleteArquivo = async (req, res) => {
       if (err) return res.sendStatus(403)
     })
     
-    const { userId, arquivoId } = req.params
+    const { arquivoId } = req.params
 
     const user = await prisma.user.findUnique({
       where: {
