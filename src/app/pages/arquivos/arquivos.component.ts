@@ -4,10 +4,11 @@ import { Arquivo } from '../../types/arquivo.type';
 import { ToastrService } from 'ngx-toastr';
 import { CommonModule } from '@angular/common'; // Importação do CommonModule e DatePipe
 import { ListaArquivosComponent } from '../../components/lista-arquivos/lista-arquivos.component';
+import { InfosArquivosComponent } from '../../components/infos-arquivos/infos-arquivos.component';
 @Component({
   selector: 'app-arquivos',
   templateUrl: './arquivos.component.html',
-  imports: [CommonModule, ListaArquivosComponent],
+  imports: [CommonModule, ListaArquivosComponent, InfosArquivosComponent],
   standalone: true,
   styleUrls: ['./arquivos.component.scss']
 })

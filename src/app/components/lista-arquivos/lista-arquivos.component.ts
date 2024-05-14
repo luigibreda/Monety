@@ -5,11 +5,12 @@ import { ToastrService } from 'ngx-toastr';
 import { CommonModule } from '@angular/common'; // Importação do CommonModule e DatePipe
 import { Router } from '@angular/router';
 import { AuthGuard } from '../../services/auth-guard.service';
+import { InfosArquivosComponent } from '../infos-arquivos/infos-arquivos.component';
 
 @Component({
   selector: 'app-lista-arquivos',
   templateUrl: './lista-arquivos.component.html',
-  imports: [CommonModule],
+  imports: [CommonModule, InfosArquivosComponent],
   standalone: true,
   styleUrls: ['./lista-arquivos.component.scss']
 })
