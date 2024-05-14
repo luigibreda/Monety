@@ -1,20 +1,21 @@
+
 <div class="row">
-    <div class="col-md-12">
+    <div class="col-md-4">
       <!-- Formulário de envio de arquivo -->
-      <form (ngSubmit)="onSubmit($event)" enctype="multipart/form-data">
+    <form (submit)="onSubmit($event)" enctype="multipart/form-data">
         <div class="card-style mb-30">
           <h6 class="mb-25">Envie seu arquivo abaixo:</h6>
           <div class="input-style-1">
             <label for="file">Arquivo</label>
             <div class="custom-file-upload">
               <label for="file" class="file-label">Selecionar arquivo</label>
-              <input type="file" id="file" name="file" class="form-control-file" (change)="onFileSelected($event)">
+              <input type="file" id="file" name="file" (change)="onFileSelected($event)">
             </div>
           </div>
           <!-- Botão de envio dentro do form -->
           <button type="submit" class="btn btn-custom-primary main-btn primary-btn btn-hover text-white" (ngSubmit)="onSubmit($event)"  [disabled]="!file">
             <i class="lni lni-upload"></i> Enviar
-          </button>
+</button>        
         </div>
       </form>
     </div>

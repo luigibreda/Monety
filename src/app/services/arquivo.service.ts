@@ -34,8 +34,8 @@ export class ArquivosService {
     return this.http.get<any>(`${this.apiUrl}/${id}`, { params, headers: this.getHeaders() });
   }
 
-  uploadArquivo( form: any): Observable<any> {
-    return this.http.delete(`${this.apiUrl}/upload`, { headers: this.getHeaders(), withCredentials: true });
+  uploadArquivo(form: any): Observable<any> {
+    return this.http.post(`${this.apiUrl}/upload`, { headers: this.getHeaders(), withCredentials: true });
   }
 
   deleteArquivo( arquivoId: string): Observable<any> {
