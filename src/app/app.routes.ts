@@ -35,12 +35,14 @@ export const routes: Routes = [
     {
         path: "usuarios",
         component: UsuariosComponent,
-        canActivate: [AuthGuard]
+        canActivate: [AuthGuard],
+        data: { isAdmin: true } 
     },
     {
         path: "configuracoes",
         component: ConfiguracoesComponent,
-        canActivate: [AuthGuard]
+        canActivate: [AuthGuard],
+        data: { isAdmin: true } 
     },
     {
         path: "perfil",

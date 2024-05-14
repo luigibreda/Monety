@@ -63,7 +63,7 @@
         </a>
       </li>
 
-      <li class="nav-item nav-item-has-children">
+      <li [class.hidden]="!authGuard.isAdmin()" class="nav-item nav-item-has-children">
         <a href="#0" class="collapsed" data-bs-toggle="collapse" data-bs-target="#ddmenu_4" [attr.aria-expanded]="router.isActive('/usuarios', true) ? 'true' : 'false'" aria-controls="ddmenu_4" aria-label="Toggle navigation">
           <span class="icon">
             <i class="bi bi-gear"></i>
