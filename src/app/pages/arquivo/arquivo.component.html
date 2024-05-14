@@ -55,6 +55,19 @@
           <h6>Informações do seu arquivo:</h6>
         </div>
         <div class="profile-info">
+            <div class="input-style-1">
+                <label>Estado:</label>
+                                <span class="status-btn" [ngClass]="{
+                      'warning-btn': arquivo?.estado === 0,
+                      'danger-btn': arquivo?.estado === 1 || arquivo?.estado === 3,
+                      'success-btn': arquivo?.estado === 2
+                    }">
+                      <ng-container *ngIf="arquivo?.estado == 0">Em análise</ng-container>
+                      <ng-container *ngIf="arquivo?.estado === 1">Reprovado</ng-container>
+                      <ng-container *ngIf="arquivo?.estado === 2">Aprovado</ng-container>
+                      <ng-container *ngIf="arquivo?.estado === 3">Pausado</ng-container>
+                    </span>
+              </div>
           <div class="input-style-1">
             <label>Nome do Arquivo:</label>
             <p>{{ arquivo?.nome }}</p>
@@ -74,6 +87,7 @@
           <div class="buttons-group">
             <a [href]="downloadLink()" class="main-btn primary-btn btn-hover" download>Baixar arquivo</a>
           </div>
+            <div *ngIf="arquivo?.estado === 2" class="text-danger mt-2">Este arquivo não está aprovado e não pode ser baixado.</div>
         </div>
       </div>
       
