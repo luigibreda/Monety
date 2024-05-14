@@ -41,6 +41,7 @@ export const getAllArquivos = async (req, res) => {
     const result = await prisma.arquivos.findMany({
       skip: offset,
       take: limit,
+      orderBy: { createdAt: 'desc' },
       where: {
         nome: {
           contains: search
@@ -80,6 +81,7 @@ export const getUserArquivos = async (req, res) => {
     const result = await prisma.arquivos.findMany({
       skip: offset,
       take: limit,
+      orderBy: { createdAt: 'desc' },
       where: {
         userId,
         nome: {
