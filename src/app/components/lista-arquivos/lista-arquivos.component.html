@@ -1,0 +1,47 @@
+<div class="row">
+    <div class="col-lg-12">
+      <div class="card-style clients-table-card mb-30">
+        <div class="table-wrapper table-responsive">
+          <table class="table clients-table">
+            <thead>
+              <tr>
+                <th>
+                  <h6>#</h6>
+                </th>
+                <th>
+                  <h6>Nome</h6>
+                </th>
+                <th>
+                  <h6>Path</h6>
+                </th>
+                <th>
+                  <h6>Filename</h6>
+                </th>
+                <th>
+                  <h6>Usuário</h6>
+                </th>
+                <th>
+                  <h6>Ação</h6>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let arquivo of arquivos">
+                <td>{{ arquivo.id }}</td>
+                <td>{{ arquivo.nome }}</td>
+                <td>{{ arquivo.path }}</td>
+                <td>{{ arquivo.filename }}</td>
+                <td>{{ arquivo.userId }}</td><!-- Formatando a data de atualização -->
+                <td>
+                  <button class="text-danger" (click)="confirmarExclusao( arquivo.id)">
+                    <i class="lni lni-trash-can"></i>
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  

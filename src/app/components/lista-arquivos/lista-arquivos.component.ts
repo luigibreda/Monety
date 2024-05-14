@@ -3,15 +3,15 @@ import { ArquivosService } from '../../services/arquivo.service';
 import { Arquivo } from '../../types/arquivo.type';
 import { ToastrService } from 'ngx-toastr';
 import { CommonModule } from '@angular/common'; // Importação do CommonModule e DatePipe
-import { ListaArquivosComponent } from '../../components/lista-arquivos/lista-arquivos.component';
+
 @Component({
-  selector: 'app-arquivos',
-  templateUrl: './arquivos.component.html',
-  imports: [CommonModule, ListaArquivosComponent],
+  selector: 'app-lista-arquivos',
+  templateUrl: './lista-arquivos.component.html',
+  imports: [CommonModule],
   standalone: true,
-  styleUrls: ['./arquivos.component.scss']
+  styleUrls: ['./lista-arquivos.component.scss']
 })
-export class ArquivosComponent implements OnInit {
+export class ListaArquivosComponent implements OnInit {
 
   arquivos: Arquivo[] = [];
 
