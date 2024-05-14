@@ -55,7 +55,7 @@
           <h6>Informações do seu arquivo:</h6>
         </div>
         <div class="profile-info">
-            <div class="input-style-1">
+          <div *ngIf="authguard.isAuthenticated()"  class="input-style-1">
                 <label>Estado:</label>
                                 <span class="status-btn" [ngClass]="{
                       'warning-btn': arquivo?.estado === 0,
@@ -84,10 +84,10 @@
             <label>Número de Downloads:</label>
             <p>{{ arquivo?.nome }}</p>
           </div>
-          <div class="buttons-group">
+          <div *ngIf="arquivo?.estado === 2" class="buttons-group">
             <a [href]="downloadLink()" class="main-btn primary-btn btn-hover" download>Baixar arquivo</a>
           </div>
-            <div *ngIf="arquivo?.estado === 2" class="text-danger mt-2">Este arquivo não está aprovado e não pode ser baixado.</div>
+            <div *ngIf="arquivo?.estado !== 2" class="text-danger mt-2">Este arquivo não está aprovado e não pode ser baixado.</div>
         </div>
       </div>
       

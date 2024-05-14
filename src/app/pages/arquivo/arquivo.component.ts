@@ -4,6 +4,7 @@ import { ArquivosService } from '../../services/arquivo.service';
 import { Arquivo } from '../../types/arquivo.type';
 import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { AuthGuard } from '../../services/auth-guard.service';
 
 @Component({
   selector: 'app-arquivo',
@@ -17,7 +18,7 @@ export class ArquivoComponent {
   arquivo: Arquivo | null = null;
   erro: string | null = null;
 
-  constructor(private route: ActivatedRoute, private arquivosService: ArquivosService, private toastr: ToastrService) { }
+  constructor(private route: ActivatedRoute, private arquivosService: ArquivosService, private toastr: ToastrService, public authguard: AuthGuard) { }
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {
