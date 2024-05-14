@@ -1,47 +1,264 @@
+
+
 <div class="row">
-    <div class="col-lg-12">
-      <div class="card-style clients-table-card mb-30">
-        <div class="table-wrapper table-responsive">
-          <table class="table clients-table">
-            <thead>
-              <tr>
-                <th>
-                  <h6>#</h6>
-                </th>
-                <th>
-                  <h6>Nome</h6>
-                </th>
-                <th>
-                  <h6>Path</h6>
-                </th>
-                <th>
-                  <h6>Filename</h6>
-                </th>
-                <th>
-                  <h6>Usuário</h6>
-                </th>
-                <th>
-                  <h6>Ação</h6>
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let arquivo of arquivos">
-                <td>{{ arquivo.id }}</td>
-                <td>{{ arquivo.nome }}</td>
-                <td>{{ arquivo.path }}</td>
-                <td>{{ arquivo.filename }}</td>
-                <td>{{ arquivo.userId }}</td><!-- Formatando a data de atualização -->
-                <td>
-                  <button class="text-danger" (click)="confirmarExclusao( arquivo.id)">
-                    <i class="lni lni-trash-can"></i>
-                  </button>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+  <div class="col-lg-12">
+    <div class="card-style clients-table-card mb-30">
+      <div class="file-manager-cards-wrapper">
+        <div class="row">
+          <div class="col-xl-3 col-lg-4 col-sm-6">
+            <div class="icon-card mb-30">
+              <div class="icon purple">
+                <i class="lni lni-folder text-bold"></i>
+              </div>
+              <div class="content">
+                <div class="">
+                  <h6 class="text-semibold text-purple">Design</h6>
+                  <p class="text-sm text-gray">17 files</p>
+                </div>
+                <div class="">
+                  <h6 class="file-size">459 MB</h6>
+                </div>
+              </div>
+            </div>
+            <!-- End Icon Cart -->
+          </div>
+          <!-- End Col -->
+          <div class="col-xl-3 col-lg-4 col-sm-6">
+            <div class="icon-card mb-30">
+              <div class="icon success">
+                <i class="lni lni-image text-bold"></i>
+              </div>
+              <div class="content">
+                <div class="">
+                  <h6 class="text-semibold text-success">Image</h6>
+                  <p class="text-sm text-gray">12 files</p>
+                </div>
+                <div class="">
+                  <h6 class="file-size">120 MB</h6>
+                </div>
+              </div>
+            </div>
+            <!-- End Icon Cart -->
+          </div>
+          <!-- End Col -->
+          <div class="col-xl-3 col-lg-4 col-sm-6">
+            <div class="icon-card mb-30">
+              <div class="icon primary">
+                <i class="lni lni-music text-bold"></i>
+              </div>
+              <div class="content">
+                <div class="">
+                  <h6 class="text-semibold text-primary">Music</h6>
+                  <p class="text-sm text-gray">39 files</p>
+                </div>
+                <div class="">
+                  <h6 class="file-size">374 MB</h6>
+                </div>
+              </div>
+            </div>
+            <!-- End Icon Cart -->
+          </div>
+          <!-- End Col -->
+          <div class="col-xl-3 col-lg-4 col-sm-6">
+            <div class="icon-card mb-30">
+              <div class="icon orange">
+                <i class="lni lni-files text-bold"></i>
+              </div>
+              <div class="content">
+                <div class="">
+                  <h6 class="text-semibold text-orange">Docs</h6>
+                  <p class="text-sm text-gray">78 files</p>
+                </div>
+                <div class="">
+                  <h6 class="file-size">237 MB</h6>
+                </div>
+              </div>
+            </div>
+            <!-- End Icon Cart -->
+          </div>
+          <!-- End Col -->
         </div>
+        <!-- end row -->
+        <!-- <div class="row">
+          <div class="col-lg-5">
+            <div class="card-style mb-30">
+              <div class="title d-flex justify-content-between align-items-center mb-30">
+                <h6 class="">Recent file</h6>
+                <div class="more-btn-wrapper">
+                  <button class="more-btn dropdown-toggle" id="moreAction" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="lni lni-more-alt"></i>
+                  </button>
+                  <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="moreAction">
+                    <li class="dropdown-item">
+                      <a href="#0" class="text-gray">Add All</a>
+                    </li>
+                    <li class="dropdown-item">
+                      <a href="#0" class="text-gray">Remove All</a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="recent-files">
+                <div class="recent-file-item">
+                  <div class="d-flex align-items-center">
+                    <div class="icon">
+                      <img src="assets/images/icon-1.svg" alt="icon" class="">
+                    </div>
+                    <div class="file-details">
+                      <h6 class="file-name">Recording.mp3</h6>
+                      <p class="file-date">10 Oct, 11:23 pm</p>
+                    </div>
+                  </div>
+                  <div class="file-size">
+                    <h6 class="text-sm text-medium">12 MB</h6>
+                  </div>
+                </div>
+                <div class="recent-file-item">
+                  <div class="d-flex align-items-center">
+                    <div class="icon">
+                      <img src="assets/images/icon-2.svg" alt="icon" class="">
+                    </div>
+                    <div class="file-details">
+                      <h6 class="file-name">Recording.mp3</h6>
+                      <p class="file-date">10 Oct, 11:23 pm</p>
+                    </div>
+                  </div>
+                  <div class="file-size">
+                    <h6 class="text-sm text-medium">12 MB</h6>
+                  </div>
+                </div>
+                <div class="recent-file-item">
+                  <div class="d-flex align-items-center">
+                    <div class="icon">
+                      <img src="assets/images/icon-3.svg" alt="icon" class="">
+                    </div>
+                    <div class="file-details">
+                      <h6 class="file-name">Word.doc</h6>
+                      <p class="file-date">10 Oct, 11:23 pm</p>
+                    </div>
+                  </div>
+                  <div class="file-size">
+                    <h6 class="text-sm text-medium">12 MB</h6>
+                  </div>
+                </div>
+                <div class="recent-file-item">
+                  <div class="d-flex align-items-center">
+                    <div class="icon">
+                      <img src="assets/images/icon-4.svg" alt="icon" class="">
+                    </div>
+                    <div class="">
+                      <h6 class="">Svg logo.png</h6>
+                      <p class="text-sm">30 Oct, 11:23 pm</p>
+                    </div>
+                  </div>
+                  <div class="">
+                    <h6 class="text-sm text-medium">7 MB</h6>
+                  </div>
+                </div>
+                <div class="recent-file-item">
+                  <div class="d-flex align-items-center">
+                    <div class="icon">
+                      <img src="assets/images/icon-5.svg" alt="icon" class="">
+                    </div>
+                    <div class="">
+                      <h6 class="">Homepage.xd</h6>
+                      <p class="text-sm">10 Nov, 1:23 pm</p>
+                    </div>
+                  </div>
+                  <div class="">
+                    <h6 class="text-sm text-medium">57 MB</h6>
+                  </div>
+                </div>
+                <div class="recent-file-item">
+                  <div class="d-flex align-items-center">
+                    <div class="icon">
+                      <img src="assets/images/icon-3.svg" alt="icon" class="">
+                    </div>
+                    <div class="">
+                      <h6 class="">Office work.doc</h6>
+                      <p class="text-sm">02 Jan, 10:13 pm</p>
+                    </div>
+                  </div>
+                  <div class="">
+                    <h6 class="text-sm text-medium">12 MB</h6>
+                  </div>
+                </div>
+                <div class="recent-file-item">
+                  <div class="d-flex align-items-center">
+                    <div class="icon">
+                      <img src="assets/images/icon-1.svg" alt="icon" class="">
+                    </div>
+                    <div class="">
+                      <h6 class="">Voice mail.mp3</h6>
+                      <p class="text-sm">10 Oct, 11:23 pm</p>
+                    </div>
+                  </div>
+                  <div class="">
+                    <h6 class="text-sm text-medium">12 MB</h6>
+                  </div>
+                </div>
+                <div class="recent-file-item">
+                  <div class="d-flex align-items-center">
+                    <div class="icon">
+                      <img src="assets/images/icon-6.svg" alt="icon" class="">
+                    </div>
+                    <div class="">
+                      <h6 class="">Mockup.psd</h6>
+                      <p class="text-sm">10 Oct, 11:23 pm</p>
+                    </div>
+                  </div>
+                  <div class="">
+                    <h6 class="text-sm text-medium">98 MB</h6>
+                  </div>
+                </div>
+              </div>
+            </div> -->
+            
+            <!-- end card -->
+          </div>
+      <div class="table-wrapper table-responsive">
+        <table class="table clients-table">
+          <thead>
+            <tr>
+              <th>
+                <h6>#</h6>
+              </th>
+              <th>
+                <h6>Nome</h6>
+              </th>
+              <th>
+                <h6>Path</h6>
+              </th>
+              <th>
+                <h6>Filename</h6>
+              </th>
+              <th>
+                <h6>Usuário</h6>
+              </th>
+              <th>
+                <h6>Ação</h6>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let arquivo of arquivos">
+              <td>{{ arquivo.id }}</td>
+              <td>{{ arquivo.nome }}</td>
+              <td>{{ arquivo.path }}</td>
+              <td>{{ arquivo.filename }}</td>
+              <td>{{ arquivo.userId }}</td><!-- Formatando a data de atualização -->
+              <td>
+                <button class="text-danger" (click)="confirmarExclusao( arquivo.id)">
+                  <i class="lni lni-trash-can"></i>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
   </div>
-  
+</div>
+
+
