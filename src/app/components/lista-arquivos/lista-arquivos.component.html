@@ -249,6 +249,11 @@
               <td>{{ arquivo.filename }}</td>
               <td>{{ arquivo.userId }}</td><!-- Formatando a data de atualização -->
               <td>
+                <button class="btn btn-link" (click)="redirecionarParaArquivo(arquivo.id)">
+                  <i class="lni lni-eye"></i>
+                </button>
+              </td>
+              <td>
                 <button class="text-danger" (click)="confirmarExclusao( arquivo.id)">
                   <i class="lni lni-trash-can"></i>
                 </button>

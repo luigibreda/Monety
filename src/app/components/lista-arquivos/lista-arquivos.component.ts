@@ -3,6 +3,7 @@ import { ArquivosService } from '../../services/arquivo.service';
 import { Arquivo } from '../../types/arquivo.type';
 import { ToastrService } from 'ngx-toastr';
 import { CommonModule } from '@angular/common'; // Importação do CommonModule e DatePipe
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-lista-arquivos',
@@ -15,7 +16,7 @@ export class ListaArquivosComponent implements OnInit {
 
   arquivos: Arquivo[] = [];
 
-  constructor(private arquivosService: ArquivosService, private toastr: ToastrService) { }
+  constructor(private arquivosService: ArquivosService, private toastr: ToastrService, private router: Router) { }
 
   ngOnInit(): void {
     this.carregarArquivos();
@@ -56,6 +57,12 @@ export class ListaArquivosComponent implements OnInit {
         this.toastr.error('Erro ao excluir arquivo. Por favor, tente novamente mais tarde.');
       }
     );
+  }
+
+  redirecionarParaArquivo(arquivoId: string) {
+    // this.router.navigate(['/arquivo', arquivoId]);
+    const url = `/arquivo/${arquivoId}`;
+    window.open(url, '_blank');
   }
   
 }
