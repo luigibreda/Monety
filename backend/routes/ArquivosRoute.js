@@ -24,8 +24,8 @@ router.get("/arquivos/:arquivoId", getArquivo)
 router.put("/:userId/arquivos/:arquivoId", verifyToken, editArquivo)
 router.delete("/arquivos/:arquivoId", verifyToken, deleteArquivo)
 router.post("/arquivos/:arquivoId/pausarDespausarArquivo", verifyToken, pausarDespausarArquivo)
-router.post("/arquivos/:arquivoId/aprovarArquivo", verifyToken, aprovarArquivo)
-router.post("/arquivos/:arquivoId/reprovarArquivo", verifyToken, reprovarArquivo)
+router.post("/arquivos/:arquivoId/aprovarArquivo", aprovarArquivo)
+router.post("/arquivos/:arquivoId/reprovarArquivo", reprovarArquivo)
 
 
 export default router

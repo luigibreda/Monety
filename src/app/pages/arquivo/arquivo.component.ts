@@ -57,5 +57,16 @@ export class ArquivoComponent {
     }
     return '#'; 
   }
+
+  formataTamanho(size: string): string {
+    if (!size) return '0 MB';
+    const sizeInMB = (parseFloat(size) / (1024 * 1024)).toFixed(2);
+    return `${sizeInMB} MB`;
+  }
+
+  formataDownloads(downloads: string): string {
+    if (!downloads) return '0 downloads';
+    return `${downloads} downloads`;
+  }
   
 }

@@ -13,7 +13,7 @@ model User {
   email         String
   password      String
   isAdmin       Boolean   @default(false)
-  ativo       Boolean   @default(true)
+  ativo         Boolean   @default(true)
   refresh_token String?
   arquivos      Arquivos[] 
   createdAt     DateTime  @default(now())
@@ -26,7 +26,10 @@ model Arquivos {
   path      String
   filename  String
   userId    String
+  downloads String?
+  tamanho   String?
   estado    Int  @default(0)  
+  tipo      Int  @default(0)  
   user      User     @relation(fields: [userId], references: [id])
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

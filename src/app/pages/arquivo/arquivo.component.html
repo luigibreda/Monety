@@ -78,11 +78,11 @@
           </div>
           <div class="input-style-1">
             <label>Tamanho:</label>
-            <p>{{ arquivo?.nome }}</p>
+            <p>{{ formataTamanho(arquivo?.tamanho || "0")}}</p>
           </div>
           <div class="input-style-1">
             <label>Número de Downloads:</label>
-            <p>{{ arquivo?.nome }}</p>
+            <p>{{ formataDownloads(arquivo?.downloads || "0") }}</p>
           </div>
           <div *ngIf="arquivo?.estado === 2" class="buttons-group">
             <a [href]="downloadLink()" class="main-btn primary-btn btn-hover" download>Baixar arquivo</a>

@@ -5,6 +5,8 @@ export interface Arquivo {
   path: string;
   estado: number;
   filename: string;
+  tamanho: string;
+  downloads: string;
   userId: string;
   createdAt: string;
   updatedAt: string;
