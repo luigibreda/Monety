@@ -249,13 +249,18 @@
               <td>{{ arquivo.filename }}</td>
               <td>{{ arquivo.userId }}</td><!-- Formatando a data de atualização -->
               <td>
-                <button class="btn btn-link" (click)="redirecionarParaArquivo(arquivo.id)">
-                  <i class="lni lni-eye"></i>
+                <button class="btn btn-link text-primary" (click)="redirecionarParaArquivo(arquivo.id)">
+                  <i class="bi bi-eye"></i>
+                </button>
+              </td>
+              <td>
+                <button class="btn btn-link text-primary" (click)="copiarLink(arquivo.path)">
+                  <i class="bi bi-copy"></i>
                 </button>
               </td>
               <td>
                 <button class="text-danger" (click)="confirmarExclusao( arquivo.id)">
-                  <i class="lni lni-trash-can"></i>
+                  <i class="bi bi-trash"></i>
                 </button>
               </td>
             </tr>

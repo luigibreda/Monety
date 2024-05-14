@@ -64,5 +64,18 @@ export class ListaArquivosComponent implements OnInit {
     const url = `/arquivo/${arquivoId}`;
     window.open(url, '_blank');
   }
+
+  copiarLink(link: string) {
+    // Cria um elemento de texto temporário
+    const inputElement = document.createElement('input');
+    inputElement.value = link;
+    document.body.appendChild(inputElement);
+    // Seleciona o texto dentro do elemento de texto
+    inputElement.select();
+    // Copia o texto selecionado para a área de transferência
+    document.execCommand('copy');
+    // Remove o elemento de texto temporário
+    document.body.removeChild(inputElement);
+  }
   
 }
