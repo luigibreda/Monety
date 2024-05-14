@@ -1,0 +1,85 @@
+<section class="section">
+    <div class="container-fluid">
+      <div class="title-wrapper pt-30">
+          <div class="row align-items-center">
+            <div class="col-md-6">
+            <div class="title">
+              <h2>Arquivo disponível para baixar</h2>
+              <small>Baixe e compartilha com seus amigos e auemnte seus ganhos!</small>
+            </div>
+            </div>
+            <!-- end col -->
+            <div class="col-md-6">
+            <div class="breadcrumb-wrapper">
+              <nav aria-label="breadcrumb">
+              <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                <a href="/home">Home</a>
+                </li>
+                <li class="breadcrumb-item active" aria-current="page">
+                Arquivo
+                </li>
+              </ol>
+              </nav>
+            </div>
+      </div>
+      <!-- end col -->
+    </div>
+    <!-- end row -->
+    </div>
+
+    <div *ngIf="erro; else arquivoTemplate">
+        <div class="erro">
+            <div class="alert-box danger-alert pl-100">
+                <div class="left">
+                  <h5 class="text-bold">ERRO</h5>
+                </div>
+                <div class="alert">
+                  <h4 class="alert-heading">Arquivo não encontrado ou deletado.</h4>
+                  <p class="text-medium">
+                    Erro ao buscar arquivo: {{ erro }}
+                  </p>
+                </div>
+              </div>
+        </div>
+      </div>
+      
+      <ng-template #arquivoTemplate>
+        <!-- <div *ngIf="arquivo">
+          <h2>Dados do Arquivo:</h2>
+          <pre>{{ arquivo | json }}</pre>
+        </div> -->
+
+    <div class="card-style settings-card-1 mb-30">
+        <div class="title mb-30 d-flex justify-content-between align-items-center">
+          <h6>Informações do seu arquivo:</h6>
+        </div>
+        <div class="profile-info">
+          <div class="input-style-1">
+            <label>Nome do Arquivo:</label>
+            <p>{{ arquivo?.nome }}</p>
+          </div>
+          <div class="input-style-1">
+            <label>Criado em:</label>
+            <p>{{ arquivo?.createdAt }}</p>
+          </div>
+          <div class="input-style-1">
+            <label>Tamanho:</label>
+            <p>{{ arquivo?.nome }}</p>
+          </div>
+          <div class="input-style-1">
+            <label>Número de Downloads:</label>
+            <p>{{ arquivo?.nome }}</p>
+          </div>
+          <div class="buttons-group">
+            <a [href]="downloadLink()" class="main-btn primary-btn btn-hover" download>Baixar arquivo</a>
+          </div>
+        </div>
+      </div>
+      
+    </ng-template>
+
+  </div>
+  
+  </section>
+  

@@ -22,6 +22,10 @@ export class ArquivosService {
     return this.http.get<Arquivo[]>(`${this.apiUrl}?page=${page}&limit=${limit}&search_query=${search}`, { headers: this.getHeaders() });
   }
 
+  getArquivo(id: String, page: number = 0, limit: number = 10, search: string = ""): Observable<Arquivo[]> {
+    return this.http.get<Arquivo[]>(`${this.apiUrl}/${id}/?page=${page}&limit=${limit}&search_query=${search}`, { headers: this.getHeaders() });
+  }
+
   deleteArquivo( arquivoId: string): Observable<any> {
     return this.http.delete(`${this.apiUrl}/${arquivoId}`, { headers: this.getHeaders(), withCredentials: true });
   }

@@ -6,15 +6,17 @@ const prisma = new PrismaClient()
 // GET Único arquivo
 export const getArquivo = async (req, res) => {
   try {
-    const { userId, arquivoId } = req.params
+    const { arquivoId } = req.params
 
-    const arquivo = await prisma.arquivo.findUnique({
+    const arquivo = await prisma.arquivos.findUnique({
       where: {
-        id: Number(arquivoId),
-        userId
+        id: arquivoId
       }
     })
 
+    if (!arquivo) 
+      return res.status(404).json({ error: 'Arquivo não encontrado' });
+    
     res.status(200).json(arquivo)
   } catch (error) {
     console.log(error)

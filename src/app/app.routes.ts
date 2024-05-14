@@ -8,6 +8,7 @@ import { HomeComponent } from './pages/home/home.component';
 import { ArquivosComponent } from './pages/arquivos/arquivos.component';
 import { UsuariosComponent } from './pages/usuarios/usuarios.component';
 import { ConfiguracoesComponent } from './pages/configuracoes/configuracoes.component';
+import { ArquivoComponent } from './pages/arquivo/arquivo.component';
 
 export const routes: Routes = [
     {
@@ -26,6 +27,10 @@ export const routes: Routes = [
         path: "dashboard",
         component: DashboardComponent,
         canActivate: [AuthGuard]
+    },
+    {
+        path: "arquivo/:id",
+        component: ArquivoComponent
     },
     {
         path: "arquivos",

@@ -16,7 +16,7 @@ const router = express.Router()
 
 router.get("/arquivos", getAllArquivos)
 router.get("/:userId/arquivos", getUserArquivos)
-router.get("/:userId/arquivos/:arquivoId", getArquivo)
+router.get("/arquivos/:arquivoId", getArquivo)
 // router.post("/:userId/arquivos", verifyToken, createArquivo)
 router.put("/:userId/arquivos/:arquivoId", verifyToken, editArquivo)
 router.delete("/arquivos/:arquivoId", verifyToken, deleteArquivo)
