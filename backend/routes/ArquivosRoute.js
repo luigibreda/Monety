@@ -11,9 +11,9 @@ import {
   enviaArquivo
 } from "../controller/ArquivoController.js"
 import { verifyToken } from "../middlewares/verifyToken.js"
-// import multer from "multer"
+import multer from "multer"
 
-// const upload = multer({ dest: 'uploads/' }).any();
+const upload = multer({ dest: 'uploads/' }).any();
 
 const router = express.Router()
 
@@ -27,5 +27,7 @@ router.post("/arquivos/:arquivoId/pausarDespausarArquivo", verifyToken, pausarDe
 router.post("/arquivos/:arquivoId/aprovarArquivo", aprovarArquivo)
 router.post("/arquivos/:arquivoId/reprovarArquivo", reprovarArquivo)
 
+
+router.post("/arquivos/upload", verifyToken, upload, enviaArquivo)
 
 export default router

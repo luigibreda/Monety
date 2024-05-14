@@ -29,7 +29,7 @@ model Arquivos {
   downloads String?
   tamanho   String?
   estado    Int  @default(0)  
-  tipo      Int  @default(0)  
+  tipo      String?  
   user      User     @relation(fields: [userId], references: [id])
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

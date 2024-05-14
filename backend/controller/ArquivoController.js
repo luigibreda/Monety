@@ -416,7 +416,9 @@ export const enviaArquivo = async (req, res) => {
         nome: originalname,
         path: path,
         filename: filename,
-        userId: userId
+        userId: userId,
+        tipo: file.mimetype,
+        tamanho: String(file.size)
       }
     });
 
