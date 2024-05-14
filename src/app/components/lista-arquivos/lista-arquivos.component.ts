@@ -16,6 +16,11 @@ import { AuthGuard } from '../../services/auth-guard.service';
 export class ListaArquivosComponent implements OnInit {
 
   arquivos: Arquivo[] = [];
+  currentPage = 0;
+  totalPages: number[] = [];
+  limit = 5;
+  totalRows = 0;
+  searchQuery = ''; // Adicione esta variável se você deseja suportar pesquisa
 
   constructor(private arquivosService: ArquivosService, private toastr: ToastrService, private router: Router, public authGuard: AuthGuard) { }
 
@@ -24,10 +29,12 @@ export class ListaArquivosComponent implements OnInit {
   }
 
   carregarArquivos(): void {
-    this.arquivosService.getAllArquivos().subscribe(
+    this.arquivosService.getAllArquivos(this.currentPage, this.limit, this.searchQuery).subscribe(
       (response: any) => {
-        if (Array.isArray(response.result)) { // Verifique se response.result é uma matriz
+        if (Array.isArray(response.result)) {
           this.arquivos = response.result;
+          this.totalRows = response.totalRows;
+          this.totalPages = Array.from({ length: response.totalPage }, (_, index) => index + 1);
         } else {
           console.error('Erro ao carregar arquivos: response.result não é uma matriz');
           this.toastr.error('Erro ao carregar arquivos. Por favor, tente novamente mais tarde.');
@@ -39,16 +46,23 @@ export class ListaArquivosComponent implements OnInit {
       }
     );
   }
+
+  carregarPagina(page: number, event: MouseEvent): void {
+    event.preventDefault();
+    this.currentPage = page;
+    this.carregarArquivos();
+  }
   
 
-  confirmarExclusao( arquivoId: string): void {
+
+  confirmarExclusao(arquivoId: string): void {
     if (confirm('Tem certeza que deseja excluir este arquivo?')) {
-      this.deletarArquivo( arquivoId);
+      this.deletarArquivo(arquivoId);
     }
   }
 
-  deletarArquivo( arquivoId: string): void {
-    this.arquivosService.deleteArquivo( arquivoId).subscribe(
+  deletarArquivo(arquivoId: string): void {
+    this.arquivosService.deleteArquivo(arquivoId).subscribe(
       () => {
         this.toastr.success('Arquivo excluído com sucesso.');
         this.carregarArquivos(); // Atualiza a lista após a exclusão
@@ -67,7 +81,7 @@ export class ListaArquivosComponent implements OnInit {
   }
 
   aprovarArquivo(arquivoId: string): void {
-    this.arquivosService.aprovarArquivo( arquivoId).subscribe(
+    this.arquivosService.aprovarArquivo(arquivoId).subscribe(
       () => {
         this.toastr.success('Arquivo aprovado com sucesso.');
         this.carregarArquivos(); // Atualiza a lista após a exclusão
@@ -80,7 +94,7 @@ export class ListaArquivosComponent implements OnInit {
   }
 
   reprovarArquivo(arquivoId: string): void {
-    this.arquivosService.reprovarArquivo( arquivoId).subscribe(
+    this.arquivosService.reprovarArquivo(arquivoId).subscribe(
       () => {
         this.toastr.success('Arquivo reprovado com sucesso.');
         this.carregarArquivos(); // Atualiza a lista após a exclusão
@@ -104,5 +118,5 @@ export class ListaArquivosComponent implements OnInit {
     // Remove o elemento de texto temporário
     document.body.removeChild(inputElement);
   }
-  
+
 }

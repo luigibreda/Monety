@@ -152,6 +152,26 @@
             </tr>
           </tbody>
         </table>
+        <div class="right table-pagination">
+          <ul class="d-flex justify-content-center align-items-center gap-2">
+            <li>
+              <a href="#" (click)="carregarPagina(0, $event)">
+                <i class="lni lni-angle-double-left"></i>
+              </a>
+            </li>
+            <li *ngFor="let page of totalPages">
+              <a href="#" (click)="carregarPagina(page - 1, $event)" [class.active]="currentPage === (page - 1)">
+                {{ page }}
+              </a>
+            </li>
+            <li>
+              <a href="#" (click)="carregarPagina(totalPages.length - 1, $event)">
+                <i class="lni lni-angle-double-right"></i>
+              </a>
+            </li>
+          </ul>                    
+        </div>
+        
       </div>
     </div>
   </div>
