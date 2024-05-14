@@ -5,6 +5,9 @@ import {
   getAllArquivos,
   getArquivo,
   getUserArquivos,
+  pausarDespausarArquivo,
+  aprovarArquivo,
+  reprovarArquivo,
   enviaArquivo
 } from "../controller/ArquivoController.js"
 import { verifyToken } from "../middlewares/verifyToken.js"
@@ -20,7 +23,9 @@ router.get("/arquivos/:arquivoId", getArquivo)
 // router.post("/:userId/arquivos", verifyToken, createArquivo)
 router.put("/:userId/arquivos/:arquivoId", verifyToken, editArquivo)
 router.delete("/arquivos/:arquivoId", verifyToken, deleteArquivo)
-// router.post("/:userId/upload", verifyToken, upload, enviaArquivo);
+router.post("/arquivos/:arquivoId/pausarDespausarArquivo", verifyToken, pausarDespausarArquivo)
+router.post("/arquivos/:arquivoId/aprovarArquivo", verifyToken, aprovarArquivo)
+router.post("/arquivos/:arquivoId/reprovarArquivo", verifyToken, reprovarArquivo)
 
 
 export default router

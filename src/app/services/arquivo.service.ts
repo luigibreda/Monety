@@ -30,5 +30,17 @@ export class ArquivosService {
     return this.http.delete(`${this.apiUrl}/${arquivoId}`, { headers: this.getHeaders(), withCredentials: true });
   }
 
+  // pausarDespausarArquivo( arquivoId: string): Observable<any> {
+  //   return this.http.post(`${this.apiUrl}/${arquivoId}/pausarDespausarArquivo`, { headers: this.getHeaders(), withCredentials: true });
+  // }
+
+  aprovarArquivo( arquivoId: string): Observable<any> {
+    return this.http.post(`${this.apiUrl}/${arquivoId}/aprovarArquivo`, { headers: this.getHeaders(), withCredentials: true });
+  }
+
+  reprovarArquivo( arquivoId: string): Observable<any> {
+    return this.http.post(`${this.apiUrl}/${arquivoId}/reprovarArquivo`, { headers: this.getHeaders(), withCredentials: true });
+  }
+
   // Adicione outros métodos conforme necessário para editar, visualizar e carregar arquivos
 }

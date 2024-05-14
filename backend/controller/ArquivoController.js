@@ -16,7 +16,7 @@ export const getArquivo = async (req, res) => {
 
     if (!arquivo) 
       return res.status(404).json({ error: 'Arquivo não encontrado' });
-    
+
     res.status(200).json(arquivo)
   } catch (error) {
     console.log(error)
@@ -189,6 +189,158 @@ export const editArquivo = async (req, res) => {
     res.sendStatus(400)
   }
 }
+
+// aprovarDesaprovar arquivo
+export const pausarDespausarArquivo = async (req, res) => {
+  try {
+    const refreshToken = req.cookies.refreshToken;
+  
+    if (!refreshToken) return res.sendStatus(401);
+  
+    jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, decoded) => {
+      if (err) return res.sendStatus(403);
+    });
+    
+    const { arquivoId } = req.params;
+  
+    const user = await prisma.user.findUnique({
+      where: {
+        id: req.usuario.userId  
+      }
+    });
+  
+    if (!user) return res.sendStatus(404);
+    if (user.refresh_token !== refreshToken) return res.sendStatus(403);
+  
+    const isArquivoExist = await prisma.arquivos.findUnique({
+      where: {
+        id: arquivoId
+      }
+    });
+  
+    if (!isArquivoExist) return res.sendStatus(404);
+  
+    // Alterar o estado do arquivo entre 1 e 3
+    const updatedArquivo = await prisma.arquivos.update({
+      where: {
+        id: arquivoId,
+        userId: req.usuario.userId 
+      },
+      data: {
+        estado: isArquivoExist.estado === 0 ? 3 : 0
+      }
+    });
+  
+    res.status(200).json({
+      message: "Estado do arquivo modificado com sucesso",
+      data: updatedArquivo
+    });
+  } catch (error) {
+    console.log(error);
+    res.sendStatus(400);
+  }
+}
+
+export const aprovarArquivo = async (req, res) => {
+  try {
+    const refreshToken = req.cookies.refreshToken;
+  
+    if (!refreshToken) return res.sendStatus(401);
+  
+    jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, decoded) => {
+      if (err) return res.sendStatus(403);
+    });
+    
+    const { arquivoId } = req.params;
+  
+    const user = await prisma.user.findUnique({
+      where: {
+        id: req.usuario.userId  
+      }
+    });
+  
+    if (!user) return res.sendStatus(404);
+    if (user.refresh_token !== refreshToken) return res.sendStatus(403);
+  
+    const isArquivoExist = await prisma.arquivos.findUnique({
+      where: {
+        id: arquivoId
+      }
+    });
+  
+    if (!isArquivoExist) return res.sendStatus(404);
+  
+    // Alterar o estado do arquivo para 2 (aprovado)
+    const updatedArquivo = await prisma.arquivos.update({
+      where: {
+        id: arquivoId,
+        userId: req.usuario.userId 
+      },
+      data: {
+        estado: 2
+      }
+    });
+  
+    res.status(200).json({
+      message: "Arquivo aprovado com sucesso",
+      data: updatedArquivo
+    });
+  } catch (error) {
+    console.log(error);
+    res.sendStatus(400);
+  }
+}
+
+export const reprovarArquivo = async (req, res) => {
+  try {
+    const refreshToken = req.cookies.refreshToken;
+  
+    if (!refreshToken) return res.sendStatus(401);
+  
+    jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, decoded) => {
+      if (err) return res.sendStatus(403);
+    });
+    
+    const { arquivoId } = req.params;
+  
+    const user = await prisma.user.findUnique({
+      where: {
+        id: req.usuario.userId  
+      }
+    });
+  
+    if (!user) return res.sendStatus(404);
+    if (user.refresh_token !== refreshToken) return res.sendStatus(403);
+  
+    const isArquivoExist = await prisma.arquivos.findUnique({
+      where: {
+        id: arquivoId
+      }
+    });
+  
+    if (!isArquivoExist) return res.sendStatus(404);
+  
+    // Alterar o estado do arquivo para 1 (reprovado)
+    const updatedArquivo = await prisma.arquivos.update({
+      where: {
+        id: arquivoId,
+        userId: req.usuario.userId 
+      },
+      data: {
+        estado: 1
+      }
+    });
+  
+    res.status(200).json({
+      message: "Arquivo reprovado com sucesso",
+      data: updatedArquivo
+    });
+  } catch (error) {
+    console.log(error);
+    res.sendStatus(400);
+  }
+}
+
 
 // DELETE arquivo por usuário
 export const deleteArquivo = async (req, res) => {

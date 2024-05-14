@@ -4,6 +4,7 @@ import { Arquivo } from '../../types/arquivo.type';
 import { ToastrService } from 'ngx-toastr';
 import { CommonModule } from '@angular/common'; // Importação do CommonModule e DatePipe
 import { Router } from '@angular/router';
+import { AuthGuard } from '../../services/auth-guard.service';
 
 @Component({
   selector: 'app-lista-arquivos',
@@ -16,7 +17,7 @@ export class ListaArquivosComponent implements OnInit {
 
   arquivos: Arquivo[] = [];
 
-  constructor(private arquivosService: ArquivosService, private toastr: ToastrService, private router: Router) { }
+  constructor(private arquivosService: ArquivosService, private toastr: ToastrService, private router: Router, public authGuard: AuthGuard) { }
 
   ngOnInit(): void {
     this.carregarArquivos();
@@ -63,6 +64,32 @@ export class ListaArquivosComponent implements OnInit {
     // this.router.navigate(['/arquivo', arquivoId]);
     const url = `/arquivo/${arquivoId}`;
     window.open(url, '_blank');
+  }
+
+  aprovarArquivo(arquivoId: string): void {
+    this.arquivosService.aprovarArquivo( arquivoId).subscribe(
+      () => {
+        this.toastr.success('Arquivo aprovado com sucesso.');
+        this.carregarArquivos(); // Atualiza a lista após a exclusão
+      },
+      (error: any) => {
+        console.error('Erro ao aprovar arquivo:', error);
+        this.toastr.error('Erro ao aporovar arquivo. Por favor, tente novamente mais tarde.');
+      }
+    );
+  }
+
+  reprovarArquivo(arquivoId: string): void {
+    this.arquivosService.reprovarArquivo( arquivoId).subscribe(
+      () => {
+        this.toastr.success('Arquivo reprovado com sucesso.');
+        this.carregarArquivos(); // Atualiza a lista após a exclusão
+      },
+      (error: any) => {
+        console.error('Erro ao reprovar arquivo:', error);
+        this.toastr.error('Erro ao reprovar arquivo. Por favor, tente novamente mais tarde.');
+      }
+    );
   }
 
   copiarLink(link: string) {
