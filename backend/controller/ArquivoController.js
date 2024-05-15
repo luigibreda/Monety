@@ -42,7 +42,8 @@ export const getAllArquivos = async (req, res) => {
       const totalRows = await prisma.arquivos.count({
         where: {
           nome: {
-            contains: search
+            contains: search,
+            mode: 'insensitive'
           }
         }
       })
@@ -53,7 +54,8 @@ export const getAllArquivos = async (req, res) => {
         orderBy: { createdAt: 'desc' },
         where: {
           nome: {
-            contains: search
+            contains: search,
+            mode: 'insensitive'
           }
         }
       })
