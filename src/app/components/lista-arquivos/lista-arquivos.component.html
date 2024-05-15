@@ -5,6 +5,7 @@
       <div class="file-manager-cards-wrapper">
           </div>
       <div class="table-wrapper table-responsive">
+        <ng-container *ngIf="arquivos && arquivos.length > 0; else noFiles">
         <table class="table clients-table">
           <thead>
             <tr>
@@ -76,6 +77,7 @@
             </tr>
           </tbody>
         </table>
+
         <div class="right table-pagination">
           <ul class="d-flex justify-content-center align-items-center gap-2">
             <li>
@@ -95,6 +97,22 @@
             </li>
           </ul>                    
         </div>
+
+      </ng-container>
+      <!-- Exibe um alerta quando não houver arquivos -->
+      <ng-template #noFiles>
+        <div class="erro">
+          <div class="alert-box primary-alert pl-100">
+            <div class="left">
+              <h5 class="text-bold">AVISO</h5>
+            </div>
+            <div class="alert">
+              <h4 class="alert-heading">Nenhum arquivo encontrado.</h4>
+              <p class="text-medium">Não há arquivos para exibir começe enviando arquivos para faturar!</p>
+            </div>
+          </div>
+        </div>
+      </ng-template>
         
       </div>
     </div>
