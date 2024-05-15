@@ -18,7 +18,7 @@ import multer from "multer"
 
 const router = express.Router()
 
-router.get("/arquivos", getAllArquivos)
+router.get("/arquivos", verifyToken, getAllArquivos)
 router.get("/:userId/arquivos", getUserArquivos)
 router.get("/arquivos/:arquivoId", getArquivo)
 // router.post("/:userId/arquivos", verifyToken, createArquivo)

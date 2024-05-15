@@ -15,7 +15,7 @@ export const getArquivo = async (req, res) => {
       }
     })
 
-    if (!arquivo) 
+    if (!arquivo)
       return res.status(404).json({ error: 'Arquivo não encontrado' });
 
     res.status(200).json(arquivo)
@@ -31,32 +31,76 @@ export const getAllArquivos = async (req, res) => {
     const limit = Number(req.query.limit) || 10
     const search = req.query.search_query || ""
     const offset = page * limit
-    const totalRows = await prisma.arquivos.count({
+
+    const user = await prisma.user.findUnique({
       where: {
-        nome: {
-          contains: search
-        }
+        id: req.usuario.userId
       }
     })
-    const totalPage = Math.ceil(totalRows / limit)
-    const result = await prisma.arquivos.findMany({
-      skip: offset,
-      take: limit,
-      orderBy: { createdAt: 'desc' },
-      where: {
-        nome: {
-          contains: search
+    if (user.isAdmin)
+    {
+      const totalRows = await prisma.arquivos.count({
+        where: {
+          nome: {
+            contains: search
+          }
         }
-      }
-    })
-    
-    res.status(200).json({
-      result,
-      page,
-      limit,
-      totalRows,
-      totalPage,
-    })
+      })
+      const totalPage = Math.ceil(totalRows / limit)
+      const result = await prisma.arquivos.findMany({
+        skip: offset,
+        take: limit,
+        orderBy: { createdAt: 'desc' },
+        where: {
+          nome: {
+            contains: search
+          }
+        }
+      })
+
+      res.status(200).json({
+        result,
+        page,
+        limit,
+        totalRows,
+        totalPage,
+      })
+      
+    }
+    else
+    {
+      const userId = req.usuario.userId
+      const totalRows = await prisma.arquivos.count({
+        where: {
+          nome: {
+            contains: search
+          },
+          userId: userId
+        }
+      })
+      const totalPage = Math.ceil(totalRows / limit)
+      const result = await prisma.arquivos.findMany({
+        skip: offset,
+        take: limit,
+        orderBy: { createdAt: 'desc' },
+        where: {
+          nome: {
+            contains: search
+          },
+          userId: userId
+        }
+      })
+
+      res.status(200).json({
+        result,
+        page,
+        limit,
+        totalRows,
+        totalPage,
+      })
+
+    }
+
   } catch (error) {
     console.log(error)
   }
@@ -116,7 +160,7 @@ export const getUserArquivos = async (req, res) => {
 //     jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, decoded) => {
 //       if (err) return res.sendStatus(403)
 //     })
-    
+
 //     const { userId } = req.params
 
 //     const user = await prisma.user.findUnique({
@@ -149,13 +193,13 @@ export const editArquivo = async (req, res) => {
     const refreshToken = req.cookies.refreshToken
 
     if (!refreshToken) return res.sendStatus(401)
-    if (!name) return res.status(400).json({ message: "Nome Obrigatório"})
-    if (!price) return res.status(400).json({ message: "Preço Obrigatório"})
+    if (!name) return res.status(400).json({ message: "Nome Obrigatório" })
+    if (!price) return res.status(400).json({ message: "Preço Obrigatório" })
 
     jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, decoded) => {
       if (err) return res.sendStatus(403)
     })
-    
+
     const { userId, arquivoId } = req.params
 
     const user = await prisma.user.findUnique({
@@ -197,43 +241,43 @@ export const editArquivo = async (req, res) => {
 export const pausarDespausarArquivo = async (req, res) => {
   try {
     const refreshToken = req.cookies.refreshToken;
-  
+
     if (!refreshToken) return res.sendStatus(401);
-  
+
     jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, decoded) => {
       if (err) return res.sendStatus(403);
     });
-    
+
     const { arquivoId } = req.params;
-  
+
     const user = await prisma.user.findUnique({
       where: {
-        id: req.usuario.userId  
+        id: req.usuario.userId
       }
     });
-  
+
     if (!user) return res.sendStatus(404);
     if (user.refresh_token !== refreshToken) return res.sendStatus(403);
-  
+
     const isArquivoExist = await prisma.arquivos.findUnique({
       where: {
         id: arquivoId
       }
     });
-  
+
     if (!isArquivoExist) return res.sendStatus(404);
-  
+
     // Alterar o estado do arquivo entre 1 e 3
     const updatedArquivo = await prisma.arquivos.update({
       where: {
         id: arquivoId,
-        userId: req.usuario.userId 
+        userId: req.usuario.userId
       },
       data: {
         estado: isArquivoExist.estado === 0 ? 3 : 0
       }
     });
-  
+
     res.status(200).json({
       message: "Estado do arquivo modificado com sucesso",
       data: updatedArquivo
@@ -247,43 +291,43 @@ export const pausarDespausarArquivo = async (req, res) => {
 export const aprovarArquivo = async (req, res) => {
   try {
     const refreshToken = req.cookies.refreshToken;
-  
+
     if (!refreshToken) return res.sendStatus(401);
-  
+
     jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, decoded) => {
       if (err) return res.sendStatus(403);
     });
-    
+
     const { arquivoId } = req.params;
-  
+
     const user = await prisma.user.findUnique({
       where: {
-        id: req.usuario.userId  
+        id: req.usuario.userId
       }
     });
-  
+
     if (!user) return res.sendStatus(404);
     if (user.refresh_token !== refreshToken) return res.sendStatus(403);
-  
+
     const isArquivoExist = await prisma.arquivos.findUnique({
       where: {
         id: arquivoId
       }
     });
-  
+
     if (!isArquivoExist) return res.sendStatus(404);
-  
+
     // Alterar o estado do arquivo para 2 (aprovado)
     const updatedArquivo = await prisma.arquivos.update({
       where: {
         id: arquivoId,
-        userId: req.usuario.userId 
+        userId: req.usuario.userId
       },
       data: {
         estado: 2
       }
     });
-  
+
     res.status(200).json({
       message: "Arquivo aprovado com sucesso",
       data: updatedArquivo
@@ -297,43 +341,43 @@ export const aprovarArquivo = async (req, res) => {
 export const reprovarArquivo = async (req, res) => {
   try {
     const refreshToken = req.cookies.refreshToken;
-  
+
     if (!refreshToken) return res.sendStatus(401);
-  
+
     jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, decoded) => {
       if (err) return res.sendStatus(403);
     });
-    
+
     const { arquivoId } = req.params;
-  
+
     const user = await prisma.user.findUnique({
       where: {
-        id: req.usuario.userId  
+        id: req.usuario.userId
       }
     });
-  
+
     if (!user) return res.sendStatus(404);
     if (user.refresh_token !== refreshToken) return res.sendStatus(403);
-  
+
     const isArquivoExist = await prisma.arquivos.findUnique({
       where: {
         id: arquivoId
       }
     });
-  
+
     if (!isArquivoExist) return res.sendStatus(404);
-  
+
     // Alterar o estado do arquivo para 1 (reprovado)
     const updatedArquivo = await prisma.arquivos.update({
       where: {
         id: arquivoId,
-        userId: req.usuario.userId 
+        userId: req.usuario.userId
       },
       data: {
         estado: 1
       }
     });
-  
+
     res.status(200).json({
       message: "Arquivo reprovado com sucesso",
       data: updatedArquivo
@@ -355,12 +399,12 @@ export const deleteArquivo = async (req, res) => {
     jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, decoded) => {
       if (err) return res.sendStatus(403)
     })
-    
+
     const { arquivoId } = req.params
 
     const user = await prisma.user.findUnique({
       where: {
-        id: req.usuario.userId  
+        id: req.usuario.userId
       }
     })
 
@@ -370,7 +414,7 @@ export const deleteArquivo = async (req, res) => {
     const isArquivoExist = await prisma.arquivos.findUnique({
       where: {
         id: arquivoId,
-        userId: req.usuario.userId 
+        userId: req.usuario.userId
       }
     })
 
@@ -379,7 +423,7 @@ export const deleteArquivo = async (req, res) => {
     const deletedArquivo = await prisma.arquivos.delete({
       where: {
         id: arquivoId,
-        userId: req.usuario.userId 
+        userId: req.usuario.userId
       }
     })
 
