@@ -3,12 +3,13 @@ import { HttpClient } from '@angular/common/http';
 import { UsuariosService } from '../../services/usuario.service';
 import { ToastrService } from 'ngx-toastr';
 import { ArquivosService } from '../../services/arquivo.service';
+import { CommonModule } from '@angular/common';
 
 
 @Component({
   selector: 'app-enviar-arquivo',
   standalone: true,
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './enviar-arquivo.component.html',
   styleUrls: ['./enviar-arquivo.component.scss'] // Corrigido para styleUrls
 })
@@ -22,6 +23,17 @@ export class EnviarArquivoComponent {
     this.file = event.target.files[0];
   }
 
+  formatFileSize(size: number): string {
+    const kbSize = size / 1024;
+    if (kbSize < 1024) {
+      return kbSize.toFixed(2) + ' KB';
+    } else {
+      const mbSize = kbSize / 1024;
+      return mbSize.toFixed(2) + ' MB';
+    }
+  }
+
+  
   onSubmit(event: Event): void {
     event.preventDefault();
 
