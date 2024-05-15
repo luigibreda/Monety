@@ -4,6 +4,7 @@ import { UsuariosService } from '../../services/usuario.service';
 import { ToastrService } from 'ngx-toastr';
 import { ArquivosService } from '../../services/arquivo.service';
 
+
 @Component({
   selector: 'app-enviar-arquivo',
   standalone: true,
@@ -44,6 +45,7 @@ export class EnviarArquivoComponent {
       this.arquivoService.uploadArquivo(formData).subscribe(
         () => {
           this.toastr.success('Arquivo enviado com sucesso.');
+          
         },
         error => {
           console.error('Erro ao enviar arquivo:', error);

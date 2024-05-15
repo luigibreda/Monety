@@ -35,7 +35,7 @@ export class ArquivosService {
   }
 
   uploadArquivo(form: any): Observable<any> {
-    return this.http.post(`${this.apiUrl}/upload`, { headers: this.getHeaders(), withCredentials: true });
+    return this.http.post(`${this.apiUrl}/upload`, {}, { headers: this.getHeaders(), withCredentials: true });
   }
 
   deleteArquivo( arquivoId: string): Observable<any> {
@@ -46,12 +46,12 @@ export class ArquivosService {
   //   return this.http.post(`${this.apiUrl}/${arquivoId}/pausarDespausarArquivo`, { headers: this.getHeaders(), withCredentials: true });
   // }
 
-  aprovarArquivo( arquivoId: string): Observable<any> {
-    return this.http.post(`${this.apiUrl}/${arquivoId}/aprovarArquivo`, { headers: this.getHeaders(), withCredentials: true });
+  aprovarArquivo(arquivoId: string): Observable<any> {
+    return this.http.post(`${this.apiUrl}/${arquivoId}/aprovarArquivo`, {}, { headers: this.getHeaders(), withCredentials: true });
   }
-
-  reprovarArquivo( arquivoId: string): Observable<any> {
-    return this.http.post(`${this.apiUrl}/${arquivoId}/reprovarArquivo`, { headers: this.getHeaders(), withCredentials: true });
+ 
+  reprovarArquivo(arquivoId: string): Observable<any> {
+    return this.http.post(`${this.apiUrl}/${arquivoId}/reprovarArquivo`, {}, { headers: this.getHeaders(), withCredentials: true });
   }
 
   // Adicione outros métodos conforme necessário para editar, visualizar e carregar arquivos
