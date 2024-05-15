@@ -11,11 +11,21 @@
             </div>
           </div>
           <!-- Exibir informações do arquivo selecionado -->
-          <div *ngIf="file" class="selected-file-info">
-            <p class="roboto-black"><strong>Nome do Arquivo:</strong> {{ file.name }}</p>
-            <p class="roboto-black"><strong>Tamanho do Arquivo:</strong> {{ formatFileSize(file.size) }}</p>
-            <br>
+          <div *ngIf="file" class="selected-file-info row">
+            <div class="col-md-6">
+              <p class="roboto-black"><strong>Nome do Arquivo:</strong></p>
+            </div>
+            <div class="col-md-6">
+              <p class="roboto-black">{{ file.name }}</p>
+            </div>
+            <div class="col-md-6">
+              <p class="roboto-black"><strong>Tamanho do Arquivo:</strong></p>
+            </div>
+            <div class="col-md-6">
+              <p class="roboto-black">{{ formatFileSize(file.size) }}</p>
+            </div>
           </div>
+          <br>
           <!-- Botão de envio dentro do formulário -->
           <button type="submit" class="btn btn-custom-primary main-btn primary-btn btn-hover text-white" [disabled]="!file">
             <i class="lni lni-upload"></i> Enviar
@@ -24,6 +34,7 @@
       </form>
     </div>
   </div>
+  
 
   <style>
     .custom-file-upload {

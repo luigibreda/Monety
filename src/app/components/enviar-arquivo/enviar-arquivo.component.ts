@@ -57,7 +57,7 @@ export class EnviarArquivoComponent {
       this.arquivoService.uploadArquivo(formData).subscribe(
         () => {
           this.toastr.success('Arquivo enviado com sucesso.');
-          
+            window.location.reload();
         },
         error => {
           console.error('Erro ao enviar arquivo:', error);
