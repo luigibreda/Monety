@@ -6,6 +6,7 @@ import { CommonModule } from '@angular/common'; // Importação do CommonModule 
 import { Router } from '@angular/router';
 import { AuthGuard } from '../../services/auth-guard.service';
 import { InfosArquivosComponent } from '../infos-arquivos/infos-arquivos.component';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-lista-arquivos',
@@ -107,10 +108,11 @@ export class ListaArquivosComponent implements OnInit {
     );
   }
 
-  copiarLink(link: string) {
+  copiarLink(id: string) {
     // Cria um elemento de texto temporário
     const inputElement = document.createElement('input');
-    inputElement.value = link;
+    
+    inputElement.value = location.origin + `/arquivo/${id}`;
     document.body.appendChild(inputElement);
     // Seleciona o texto dentro do elemento de texto
     inputElement.select();
@@ -119,5 +121,6 @@ export class ListaArquivosComponent implements OnInit {
     // Remove o elemento de texto temporário
     document.body.removeChild(inputElement);
   }
+
 
 }
