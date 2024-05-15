@@ -1,5 +1,6 @@
 import { PrismaClient } from "@prisma/client"
 import jwt from "jsonwebtoken"
+import fs from "fs"
 
 const prisma = new PrismaClient()
 
@@ -426,6 +427,41 @@ export const enviaArquivo = async (req, res) => {
   } catch (error) {
     console.log(error);
     res.sendStatus(400);
+  }
+};
+
+export const downloadArquivo = async (req, res) => {
+  try {
+    const arquivoId = req.params.arquivoId;
+
+    // Encontra o arquivo pelo ID
+    const arquivo = await prisma.arquivos.findUnique({
+      where: {
+        id: arquivoId
+      }
+    });
+
+    if (!arquivo) {
+      return res.status(404).json({ message: "Arquivo não encontrado." });
+    }
+
+    // Define o caminho do arquivo
+    const filePath = arquivo.path;
+
+    // Verifica se o arquivo existe
+    if (!fs.existsSync(filePath)) {
+      return res.status(404).json({ message: "Arquivo não encontrado." });
+    }
+
+    // Define o cabeçalho de resposta para o download do arquivo
+    res.setHeader("Content-Disposition", `attachment; filename=${arquivo.nome}`);
+    res.setHeader("Content-Type", arquivo.tipo);
+
+    // Lê o arquivo do sistema de arquivos e envia como resposta
+    fs.createReadStream(filePath).pipe(res);
+  } catch (error) {
+    console.error(error);
+    res.sendStatus(500);
   }
 };
 

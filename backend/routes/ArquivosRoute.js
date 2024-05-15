@@ -8,7 +8,8 @@ import {
   pausarDespausarArquivo,
   aprovarArquivo,
   reprovarArquivo,
-  enviaArquivo
+  enviaArquivo,
+  downloadArquivo
 } from "../controller/ArquivoController.js"
 import { verifyToken } from "../middlewares/verifyToken.js"
 import multer from "multer"
@@ -29,5 +30,6 @@ router.post("/arquivos/:arquivoId/reprovarArquivo", verifyToken, reprovarArquivo
 
 
 router.post("/arquivos/upload", verifyToken, upload, enviaArquivo)
+router.get("/baixar/:arquivoId", downloadArquivo)
 
 export default router

@@ -85,7 +85,7 @@
             <p>{{ formataDownloads(arquivo?.downloads || "0") }}</p>
           </div>
           <div *ngIf="arquivo?.estado === 2" class="buttons-group">
-            <a [href]="downloadLink()" class="main-btn primary-btn btn-hover" download>Baixar arquivo</a>
+            <a [href]="downloadLink()" target="_blank" class="main-btn primary-btn btn-hover" download>Baixar arquivo</a>
           </div>
             <div *ngIf="arquivo?.estado !== 2" class="text-danger mt-2">Este arquivo não está aprovado e não pode ser baixado.</div>
         </div>

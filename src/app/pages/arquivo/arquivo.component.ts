@@ -5,6 +5,8 @@ import { Arquivo } from '../../types/arquivo.type';
 import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { AuthGuard } from '../../services/auth-guard.service';
+import { environment } from '../../../environments/environment';
+
 
 @Component({
   selector: 'app-arquivo',
@@ -50,14 +52,15 @@ export class ArquivoComponent {
       }
     );
   }
-
   downloadLink(): string {
-    if (this.arquivo) {
-      return '//' + location.hostname + '/' + (this.arquivo.path ? this.arquivo.path.replace('//', '/') : '');
+    if (this.arquivo && this.arquivo.path) {
+      const baseUrl = location.origin; // Obtém o endereço base do host
+      const path = this.arquivo.path.replace(/^\//, ''); // Remove a barra inicial do caminho
+      return `${environment.apiUrl}/baixar/${this.arquivo.id}`;
     }
-    return '#'; 
+    return '#'; // Retorna '#' se não houver arquivo ou caminho
   }
-  
+
   formataTamanho(size: string | undefined): string {
     if (!size) return '0 MB';
     const sizeInMB = (parseFloat(size) / (1024 * 1024)).toFixed(2);
