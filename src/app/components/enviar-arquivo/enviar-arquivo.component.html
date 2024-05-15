@@ -1,38 +1,46 @@
 
-    <div class="col-md-12">
-      <!-- Formulário de envio de arquivo -->
-      <form (submit)="onSubmit($event)" enctype="multipart/form-data">
-        <div class="card-style mb-30">
-          <h6 class="mb-25 robo roboto-black">Envie seu arquivo abaixo:</h6>
-          <div class="input-style-1">
-            <div class="custom-file-upload">
-              <label for="file" class="file-label">Selecionar arquivo</label>
-              <input type="file" id="file" name="file" (change)="onFileSelected($event)">
-            </div>
+<div class="col-md-12">
+    <!-- Formulário de envio de arquivo -->
+    <form (submit)="onSubmit($event)" enctype="multipart/form-data">
+      <div class="card-style mb-30">
+        <h6 class="mb-25 robo roboto-black">Envie seu arquivo abaixo:</h6>
+        <!-- Campo de envio de arquivo -->
+        <div class="input-style-1">
+          <div class="custom-file-upload">
+            <label for="file" class="file-label">Selecionar arquivo</label>
+            <input type="file" id="file" name="file" (change)="onFileSelected($event)">
           </div>
-          <!-- Exibir informações do arquivo selecionado -->
-          <div *ngIf="file" class="selected-file-info row">
+        </div>
+        <!-- Exibir informações do arquivo selecionado -->
+        <div class="selected-file-info" *ngIf="file">
+          <div class="row">
             <div class="col-md-6">
-              <p class="roboto-black"><strong>Nome do Arquivo:</strong></p>
+              <p class="roboto-black"><small>Nome do Arquivo:</small></p>
             </div>
             <div class="col-md-6">
               <p class="roboto-black">{{ file.name }}</p>
             </div>
             <div class="col-md-6">
-              <p class="roboto-black"><strong>Tamanho do Arquivo:</strong></p>
+              <p class="roboto-black"><small>Tamanho:</small></p>
             </div>
             <div class="col-md-6">
               <p class="roboto-black">{{ formatFileSize(file.size) }}</p>
             </div>
           </div>
-          <br>
-          <!-- Botão de envio dentro do formulário -->
-          <button type="submit" class="btn btn-custom-primary main-btn primary-btn btn-hover text-white" [disabled]="!file">
-            <i class="lni lni-upload"></i> Enviar
-          </button>
         </div>
-      </form>
-    </div>
+        <!-- Label do campo mesmo sem arquivo enviado -->
+        <div *ngIf="!file" class="no-file-selected-info">
+          <p class="roboto-black"><small>Nenhum arquivo selecionado.</small></p>
+        </div>
+        <br>
+        <!-- Botão de envio dentro do formulário -->
+        <button type="submit" class="btn btn-custom-primary main-btn primary-btn btn-hover text-white" [disabled]="!file">
+          <i class="lni lni-upload"></i> Enviar
+        </button>
+      </div>
+    </form>
+  </div>
+  
 
   
 
