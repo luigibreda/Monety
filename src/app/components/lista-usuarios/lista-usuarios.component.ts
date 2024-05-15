@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { UsuariosService } from '../../services/usuario.service';
 import { CommonModule } from '@angular/common';
 import { Usuario } from '../../types/usuario.type';
@@ -7,7 +8,7 @@ import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-lista-usuarios',
   templateUrl: './lista-usuarios.component.html',
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule], 
   standalone: true,
   styleUrls: ['./lista-usuarios.component.scss']
 })
@@ -16,7 +17,7 @@ export class ListaUsuariosComponent implements OnInit {
   usuarios: Usuario[] = [];
   page: number = 0;
   limit: number = 5;
-  totalPage: number = 1; // Inicializa com 1 para evitar NaN no template
+  totalPage: number = 1; 
   searchQuery: string = '';
   currentPage: number = 0;
 
@@ -60,7 +61,7 @@ export class ListaUsuariosComponent implements OnInit {
     this.usuariosService.deletaUsuario(id).subscribe(
       () => {
         this.toastr.success('Usuário excluído com sucesso.');
-        this.carregarUsuarios(); // Atualiza a lista após a exclusão
+        this.carregarUsuarios(); 
       },
       error => {
         console.error('Erro ao excluir usuário:', error);
@@ -71,5 +72,11 @@ export class ListaUsuariosComponent implements OnInit {
 
   getPagesArray(totalPages: number): number[] {
     return Array.from({ length: totalPages }, (v, k) => k);
+  }
+
+  onSearch(event: Event): void {
+    event.preventDefault();
+    this.page = 0; 
+    this.carregarUsuarios();
   }
 }
