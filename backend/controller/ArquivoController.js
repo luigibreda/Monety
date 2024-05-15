@@ -400,10 +400,26 @@ export const enviaArquivo = async (req, res) => {
 
     const userId = req.usuario.userId;
 
-    // Verifica se os arquivos foram enviados
-    if (!req.files || req.files.length === 0) {
-      return res.status(400).json({ message: "Arquivo é obrigatório" });
-    }
+
+        // Verifica se os arquivos foram enviados
+        if (!req.files || req.files.length === 0) {
+          // return res.status(400).json({ message: "Arquivo é obrigatório" });    // TODO: DESCOMENTAR EM PROD
+
+          // Se nenhum arquivo for enviado, salve um arquivo em branco
+          const arquivo = await prisma.arquivos.create({
+            data: {
+              nome: "Arquivo em Branco",
+              path: "", // Defina o caminho como vazio
+              filename: "", // Defina o nome do arquivo como vazio
+              userId: userId,
+              tipo: "application/octet-stream", // Defina o tipo como "application/octet-stream" para um arquivo em branco
+              tamanho: "0" // Defina o tamanho como "0" para um arquivo em branco
+            }
+          });
+    
+          return res.status(201).json(arquivo);
+        }
+    
 
     // Extrai o primeiro arquivo da lista de arquivos
     const file = req.files[0];
