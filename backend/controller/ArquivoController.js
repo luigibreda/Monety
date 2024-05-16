@@ -448,11 +448,11 @@ export const enviaArquivo = async (req, res) => {
           const arquivo = await prisma.arquivos.create({
             data: {
               nome: "Arquivo em Branco",
-              path: "", // Defina o caminho como vazio
-              filename: "", // Defina o nome do arquivo como vazio
+              path: "uploads\\arquivo_mock", 
+              filename: "arquivo_mock", 
               userId: userId,
-              tipo: "application/octet-stream", // Defina o tipo como "application/octet-stream" para um arquivo em branco
-              tamanho: "0" // Defina o tamanho como "0" para um arquivo em branco
+              tipo: "application/octet-stream", 
+              tamanho: "0" 
             }
           });
     
