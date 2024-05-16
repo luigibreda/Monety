@@ -3,17 +3,56 @@ import bcrypt from "bcrypt"
 import jwt from "jsonwebtoken"
 
 const prisma = new PrismaClient()
-
 export const obterTodosUsuarios = async (req, res) => {
   try {
-    const users = await prisma.user.findMany()
+    // Parâmetros de paginação
+    const page = Number(req.query.page) || 0;
+    const limit = Number(req.query.limit) || 10;
+    const search = req.query.search_query || "";
+    const offset = page * limit;
 
-    res.status(200).json(users)
+    // Contagem total de usuários
+    const totalRows = await prisma.user.count({
+      where: {
+        OR: [
+          { name: { contains: search } },
+          { email: { contains: search } },
+          // Adicione outros campos conforme necessário
+        ],
+      },
+    });
+
+    // Cálculo do total de páginas
+    const totalPage = Math.ceil(totalRows / limit);
+
+    // Consulta para obter os usuários com paginação
+    const users = await prisma.user.findMany({
+      skip: offset,
+      take: limit,
+      orderBy: { createdAt: 'desc' },
+      where: {
+        OR: [
+          { name: { contains: search } },
+          { email: { contains: search } },
+          // Adicione outros campos conforme necessário
+        ],
+      },
+    });
+
+    // Resposta com os dados paginados
+    res.status(200).json({
+      result: users,
+      page,
+      limit,
+      totalRows,
+      totalPage,
+    });
   } catch (error) {
-    console.log(error)
-    res.sendStatus(400)
+    console.log(error);
+    res.sendStatus(400);
   }
-}
+};
+
 
 export const usuarioLogado = async (req, res) => {
   try {

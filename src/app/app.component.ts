@@ -13,7 +13,7 @@ import { CommonModule } from '@angular/common';
   styleUrl: './app.component.scss'
 })
 export class AppComponent {
-  title = 'login-page';
+  title = 'monety-app';
 
   constructor(public authGuard: AuthGuard, private router: Router) { }
 

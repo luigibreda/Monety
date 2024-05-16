@@ -7,11 +7,12 @@ import { Router } from '@angular/router';
 import { AuthGuard } from '../../services/auth-guard.service';
 import { InfosArquivosComponent } from '../infos-arquivos/infos-arquivos.component';
 import { environment } from '../../../environments/environment';
+import { FormsModule } from '@angular/forms'; // Importação do FormsModule
 
 @Component({
   selector: 'app-lista-arquivos',
   templateUrl: './lista-arquivos.component.html',
-  imports: [CommonModule, InfosArquivosComponent],
+  imports: [CommonModule, InfosArquivosComponent, FormsModule], // Adicionando FormsModule aqui
   standalone: true,
   styleUrls: ['./lista-arquivos.component.scss']
 })
@@ -19,11 +20,12 @@ export class ListaArquivosComponent implements OnInit {
 
   arquivos: Arquivo[] = [];
   currentPage = 0;
+  page: number = 0;
   totalPages: number[] = [];
   limit = 5;
   totalRows = 0;
-  searchQuery = ''; // Adicione esta variável se você deseja suportar pesquisa
-
+  searchQuery: string = '';
+  
   constructor(private arquivosService: ArquivosService, private toastr: ToastrService, private router: Router, public authGuard: AuthGuard) { }
 
   ngOnInit(): void {
@@ -35,6 +37,7 @@ export class ListaArquivosComponent implements OnInit {
       (response: any) => {
         if (Array.isArray(response.result)) {
           this.arquivos = response.result;
+          this.page = response.page;
           this.totalRows = response.totalRows;
           this.totalPages = Array.from({ length: response.totalPage }, (_, index) => index + 1);
         } else {
@@ -55,7 +58,11 @@ export class ListaArquivosComponent implements OnInit {
     this.carregarArquivos();
   }
   
-
+  onSearch(event: Event): void {
+    event.preventDefault();
+    this.page = 0; 
+    this.carregarArquivos();
+  }
 
   confirmarExclusao(arquivoId: string): void {
     if (confirm('Tem certeza que deseja excluir este arquivo?')) {
@@ -77,7 +84,6 @@ export class ListaArquivosComponent implements OnInit {
   }
 
   redirecionarParaArquivo(arquivoId: string) {
-    // this.router.navigate(['/arquivo', arquivoId]);
     const url = `/arquivo/${arquivoId}`;
     window.open(url, '_blank');
   }
@@ -90,7 +96,7 @@ export class ListaArquivosComponent implements OnInit {
       },
       (error: any) => {
         console.error('Erro ao aprovar arquivo:', error);
-        this.toastr.error('Erro ao aporovar arquivo. Por favor, tente novamente mais tarde.');
+        this.toastr.error('Erro ao aprovar arquivo. Por favor, tente novamente mais tarde.');
       }
     );
   }
@@ -109,18 +115,11 @@ export class ListaArquivosComponent implements OnInit {
   }
 
   copiarLink(id: string) {
-    // Cria um elemento de texto temporário
     const inputElement = document.createElement('input');
-    
     inputElement.value = location.origin + `/arquivo/${id}`;
     document.body.appendChild(inputElement);
-    // Seleciona o texto dentro do elemento de texto
     inputElement.select();
-    // Copia o texto selecionado para a área de transferência
     document.execCommand('copy');
-    // Remove o elemento de texto temporário
     document.body.removeChild(inputElement);
   }
-
-
 }
