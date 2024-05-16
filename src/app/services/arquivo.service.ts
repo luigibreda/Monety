@@ -28,7 +28,7 @@ export class ArquivosService {
     const cachedTimestamp = localStorage.getItem(`${cacheKey}_timestamp`);
 
     if (cachedData && cachedTimestamp) {
-      const expirationTime = Number(cachedTimestamp) + (1 * 10 * 100); // Definindo o tempo de vida do cache 
+      const expirationTime = Number(cachedTimestamp) + (1 * 10 * 10); // Definindo o tempo de vida do cache 
       const currentTime = new Date().getTime();
 
       if (currentTime < expirationTime) {
@@ -59,7 +59,7 @@ export class ArquivosService {
     const cachedTimestamp = localStorage.getItem(`${cacheKey}_timestamp`);
   
     if (cachedData && cachedTimestamp) {
-      const expirationTime = Number(cachedTimestamp) + (1 * 10 * 100); // Definindo o tempo de vida do cache 
+      const expirationTime = Number(cachedTimestamp) + (1 * 10 * 10); // Definindo o tempo de vida do cache 
       const currentTime = new Date().getTime();
   
       if (currentTime < expirationTime) {

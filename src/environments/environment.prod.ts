@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiUrl: 'https://api.monetyapp.com.br'
+  apiUrl: 'http://179.127.11.240:8030'
 };
