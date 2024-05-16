@@ -1,11 +1,13 @@
 {
-  "name": "login-page",
+  "name": "monety-app",
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build",
     "watch": "ng build --watch --configuration development",
+    "build": "ng build monety-app --configuration production",
+    "build:dev": "ng build monety-app --configuration development",
+    "build:vercel": "ng build monety-app --configuration vercel",
     "test": "ng test"
   },
   "private": true,

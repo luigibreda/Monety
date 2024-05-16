@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "login-page": {
+    "monety-app": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/login-page",
+            "outputPath": "dist/monety-app",
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": [
@@ -75,6 +75,28 @@
                 }
               ]
             },
+            "vercel": {
+              "optimization": false,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "5mb",
+                  "maximumError": "10mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "2kb",
+                  "maximumError": "4kb"
+                }
+              ],
+              "outputHashing": "all",
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.vercel.ts"
+                }
+              ]
+            },
             "development": {
               "optimization": false,
               "extractLicenses": false,
@@ -87,10 +109,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "login-page:build:production"
+              "buildTarget": "monety-app:build:production"
             },
             "development": {
-              "buildTarget": "login-page:build:development"
+              "buildTarget": "monety-app:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -98,7 +120,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "buildTarget": "login-page:build"
+            "buildTarget": "monety-app:build"
           }
         },
         "test": {
