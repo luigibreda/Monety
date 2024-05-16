@@ -53,9 +53,7 @@ export class ArquivoComponent {
     );
   }
   downloadLink(): string {
-    if (this.arquivo && this.arquivo.path) {
-      const baseUrl = location.origin; // Obtém o endereço base do host
-      const path = this.arquivo.path.replace(/^\//, ''); // Remove a barra inicial do caminho
+    if (this.arquivo) {
       return `${environment.apiUrl}/baixar/${this.arquivo.id}`;
     }
     return '#'; // Retorna '#' se não houver arquivo ou caminho
