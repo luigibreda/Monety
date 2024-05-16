@@ -1,55 +1,90 @@
 import { PrismaClient } from "@prisma/client"
 import jwt from "jsonwebtoken"
 import fs from "fs"
+import cache from "memory-cache";
 
 const prisma = new PrismaClient()
 
-// GET Único arquivo
+// Função para buscar um único arquivo pelo ID - CACHE
 export const getArquivo = async (req, res) => {
   try {
-    const { arquivoId } = req.params
+    const { arquivoId } = req.params;
 
+    // Gerar uma chave de cache com base no ID do arquivo
+    const cacheKey = `getArquivo:${arquivoId}`;
+
+    // Verificar se os dados estão em cache
+    const cachedData = cache.get(cacheKey);
+
+    if (cachedData) {
+      // Se os dados estiverem em cache, retornar os dados em cache
+      return res.status(200).json(cachedData);
+    }
+
+    // Se os dados não estiverem em cache, buscar os dados do banco de dados
     const arquivo = await prisma.arquivos.findUnique({
       where: {
         id: arquivoId
       }
-    })
+    });
 
-    if (!arquivo)
-      return res.status(404).json({ error: 'Arquivo não encontrado' });
+    if (!arquivo) {
+      return res.status(404).json({ message: "Arquivo não encontrado." });
+    }
 
-    res.status(200).json(arquivo)
+    // Armazenar os dados em cache
+    cache.put(cacheKey, arquivo);
+
+    // Retornar os dados
+    res.status(200).json(arquivo);
   } catch (error) {
-    console.log(error)
+    console.error(error);
+    res.sendStatus(500);
   }
-}
+};
 
-// GET Todos os arquivos
+// Função para buscar todos os arquivos do usuário, se for admin, de todos. - CACHE
 export const getAllArquivos = async (req, res) => {
   try {
-    const page = Number(req.query.page) || 0
-    const limit = Number(req.query.limit) || 10
-    const search = req.query.search_query || ""
-    const offset = page * limit
+    const page = Number(req.query.page) || 0;
+    const limit = Number(req.query.limit) || 10;
+    const search = req.query.search_query || "";
 
+    // Gerar uma chave de cache com base nos parâmetros da solicitação
+    const cacheKey = `getAllArquivos:${page}:${limit}:${search}`;
+
+    // Verificar se os dados estão em cache
+    const cachedData = cache.get(cacheKey);
+
+    if (cachedData) {
+      // Se os dados estiverem em cache, retornar os dados em cache
+      return res.status(200).json(cachedData);
+    }
+
+    // Se os dados não estiverem em cache, buscar os dados do banco de dados
     const user = await prisma.user.findUnique({
       where: {
         id: req.usuario.userId
       }
-    })
-    if (user.isAdmin)
-    {
-      const totalRows = await prisma.arquivos.count({
+    });
+
+    let totalRows, totalPage, result;
+
+    if (user.isAdmin) {
+      // Lógica para administradores
+      totalRows = await prisma.arquivos.count({
         where: {
           nome: {
             contains: search,
             mode: 'insensitive'
           }
         }
-      })
-      const totalPage = Math.ceil(totalRows / limit)
-      const result = await prisma.arquivos.findMany({
-        skip: offset,
+      });
+
+      totalPage = Math.ceil(totalRows / limit);
+
+      result = await prisma.arquivos.findMany({
+        skip: page * limit,
         take: limit,
         orderBy: { createdAt: 'desc' },
         where: {
@@ -58,31 +93,24 @@ export const getAllArquivos = async (req, res) => {
             mode: 'insensitive'
           }
         }
-      })
+      });
+    } else {
+      // Lógica para usuários não administradores
+      const userId = req.usuario.userId;
 
-      res.status(200).json({
-        result,
-        page,
-        limit,
-        totalRows,
-        totalPage,
-      })
-      
-    }
-    else
-    {
-      const userId = req.usuario.userId
-      const totalRows = await prisma.arquivos.count({
+      totalRows = await prisma.arquivos.count({
         where: {
           nome: {
             contains: search
           },
           userId: userId
         }
-      })
-      const totalPage = Math.ceil(totalRows / limit)
-      const result = await prisma.arquivos.findMany({
-        skip: offset,
+      });
+
+      totalPage = Math.ceil(totalRows / limit);
+
+      result = await prisma.arquivos.findMany({
+        skip: page * limit,
         take: limit,
         orderBy: { createdAt: 'desc' },
         where: {
@@ -91,24 +119,32 @@ export const getAllArquivos = async (req, res) => {
           },
           userId: userId
         }
-      })
-
-      res.status(200).json({
-        result,
-        page,
-        limit,
-        totalRows,
-        totalPage,
-      })
-
+      });
     }
 
+    // Armazenar os dados em cache
+    cache.put(cacheKey, {
+      result,
+      page,
+      limit,
+      totalRows,
+      totalPage
+    });
+
+    // Retornar os dados
+    res.status(200).json({
+      result,
+      page,
+      limit,
+      totalRows,
+      totalPage
+    });
   } catch (error) {
-    console.log(error)
+    console.log(error);
+    res.sendStatus(500);
   }
 }
 
-// GET arquivos por usuário
 export const getUserArquivos = async (req, res) => {
   try {
     const userId = req.params.arquivoId
@@ -149,46 +185,6 @@ export const getUserArquivos = async (req, res) => {
   }
 }
 
-// // CREATE arquivo por usuario
-// export const createArquivo = async (req, res) => {
-//   try {
-//     const { name, price } = req.body
-//     const refreshToken = req.cookies.refreshToken
-
-//     if (!refreshToken) return res.sendStatus(401)
-//     if (!name) return res.status(400).json({ message: "Nome Obrigatório"})
-//     if (!price) return res.status(400).json({ message: "Preço Obrigatório"})
-
-//     jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, decoded) => {
-//       if (err) return res.sendStatus(403)
-//     })
-
-//     const { userId } = req.params
-
-//     const user = await prisma.user.findUnique({
-//       where: {
-//         id: userId
-//       }
-//     })
-
-//     if (!user) return res.sendStatus(404)
-//     if (user.refresh_token !== refreshToken) return res.sendStatus(403)
-
-//     const arquivo = await prisma.arquivos.create({
-//       data: {
-//         name,
-//         price: Number(price),
-//         userId
-//       }
-//     })
-
-//     res.status(201).json(arquivo)
-//   } catch (error) {
-//     console.log(error)
-//   }
-// }
-
-// EDIT arquivo por usuário
 export const editArquivo = async (req, res) => {
   try {
     const { name, price } = req.body
@@ -239,7 +235,6 @@ export const editArquivo = async (req, res) => {
   }
 }
 
-// aprovarDesaprovar arquivo
 export const pausarDespausarArquivo = async (req, res) => {
   try {
     const refreshToken = req.cookies.refreshToken;
@@ -390,8 +385,6 @@ export const reprovarArquivo = async (req, res) => {
   }
 }
 
-
-// DELETE arquivo por usuário
 export const deleteArquivo = async (req, res) => {
   try {
     const refreshToken = req.cookies.refreshToken
@@ -439,8 +432,6 @@ export const deleteArquivo = async (req, res) => {
   }
 }
 
-
-// CREATE arquivo por usuario com upload de arquivo
 export const enviaArquivo = async (req, res) => {
   try {
 
@@ -492,9 +483,23 @@ export const enviaArquivo = async (req, res) => {
   }
 };
 
+
+
+// Função para baixar um arquivo específico - CACHE
 export const downloadArquivo = async (req, res) => {
   try {
     const arquivoId = req.params.arquivoId;
+
+    // Gerar uma chave de cache com base no ID do arquivo
+    const cacheKey = `downloadArquivo:${arquivoId}`;
+
+    // Verificar se os dados estão em cache
+    const cachedData = cache.get(cacheKey);
+
+    if (cachedData) {
+      // Se os dados estiverem em cache, enviar o arquivo como resposta
+      return res.end(cachedData, 'binary');
+    }
 
     // Encontra o arquivo pelo ID
     const arquivo = await prisma.arquivos.findUnique({
@@ -515,16 +520,21 @@ export const downloadArquivo = async (req, res) => {
       return res.status(404).json({ message: "Arquivo não encontrado." });
     }
 
+    // Lê o arquivo do sistema de arquivos
+    const fileData = fs.readFileSync(filePath);
+
+    // Armazena os dados do arquivo em cache
+    cache.put(cacheKey, fileData);
+
     // Define o cabeçalho de resposta para o download do arquivo
     res.setHeader("Content-Disposition", `attachment; filename=${arquivo.nome}`);
     res.setHeader("Content-Type", arquivo.tipo);
 
-    // Lê o arquivo do sistema de arquivos e envia como resposta
-    fs.createReadStream(filePath).pipe(res);
+    // Envia o arquivo como resposta
+    res.end(fileData, 'binary');
   } catch (error) {
     console.error(error);
     res.sendStatus(500);
   }
 };
 
-// export { upload };
