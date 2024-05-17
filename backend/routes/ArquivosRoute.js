@@ -14,7 +14,7 @@ import {
 import { verifyToken } from "../middlewares/verifyToken.js"
 import multer from "multer"
 
-// const upload = multer({ dest: 'uploads/' }).any();
+const upload = multer({ dest: 'uploads/' }).any();
 
 const router = express.Router()
 
@@ -29,7 +29,7 @@ router.post("/arquivos/:arquivoId/aprovarArquivo", verifyToken, aprovarArquivo)
 router.post("/arquivos/:arquivoId/reprovarArquivo", verifyToken, reprovarArquivo)
 
 
-router.post("/arquivos/upload", verifyToken, enviaArquivo)
+router.post("/arquivos/upload", verifyToken, upload, enviaArquivo)
 router.get("/baixar/:arquivoId", downloadArquivo)
 
 export default router

@@ -1,4 +1,4 @@
 export const environment = {
   production: false,
-  apiUrl: 'http://api.monetyapp.com.br:8030'
+  apiUrl: 'http://localhost:8080'
 };

@@ -4,7 +4,8 @@ import fs from "fs"
 import cache from "memory-cache";
 
 const prisma = new PrismaClient()
-const CACHE_TTL = 1 * 60 * 1000; // 1 minuto
+const CACHE_TTL_1H = 60 * 60 * 1000; // 1 hora
+const CACHE_TTL = 1 * 5 * 1000; // 5 segundos
 
 
 // Função para buscar um único arquivo pelo ID - CACHE
@@ -526,7 +527,7 @@ export const downloadArquivo = async (req, res) => {
     const fileData = fs.readFileSync(filePath);
 
     // Armazena os dados do arquivo em cache
-    cache.put(cacheKey, fileData, CACHE_TTL);
+    cache.put(cacheKey, fileData, CACHE_TTL_1H);
 
     // Define o cabeçalho de resposta para o download do arquivo
     res.setHeader("Content-Disposition", `attachment; filename=${arquivo.nome}`);
