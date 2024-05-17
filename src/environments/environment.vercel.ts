@@ -1,4 +1,4 @@
 export const environment = {
   production: false,
-  apiUrl: 'https://monety-backend2.vercel.app'
+  apiUrl: 'http://api.monetyapp.com.br:8030'
 };
