@@ -18,6 +18,11 @@ Monety é uma plataforma inovadora que permite aos criadores de conteúdo ganhar
 3. **Monetize:** Escolha as opções de monetização disponíveis para o seu conteúdo.
 4. **Ganhe Dinheiro:** Acompanhe seus ganhos crescerem à medida que seu conteúdo é visualizado e interage com a comunidade Monety.
 
+## Docker
+
+- docker build -t monety-app .
+- docker run -d -p 80:80 monety-app
+
 ## Contribuição
 
 Contribuições são bem-vindas! Se você deseja contribuir com melhorias para o Monety, sinta-se à vontade para abrir uma issue ou enviar um pull request.
