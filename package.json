@@ -3,11 +3,11 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "ng serve --host 0.0.0.0",
     "watch": "ng build --watch --configuration development",
-    "build": "ng build monety-app --configuration production",
-    "build:dev": "ng build monety-app --configuration development",
-    "build:vercel": "ng build monety-app --configuration vercel",
+    "build": "ng build --configuration production",
+    "build:dev": "ng build --configuration development",
+    "build:vercel": "ng build --configuration vercel",
     "test": "ng test"
   },
   "private": true,

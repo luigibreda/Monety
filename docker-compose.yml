@@ -1,0 +1,27 @@
+version: '3.8'
+
+services:
+  production:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: production
+      args:
+        BUILD_ENV: production
+    ports:
+      - "80:80"
+    depends_on:
+      - dev
+
+  dev:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: development
+      args:
+        BUILD_ENV: development
+    ports:
+      - "4200:4200"
+    volumes:
+      - .:/app
+    command: npm run start
